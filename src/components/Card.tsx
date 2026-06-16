@@ -6,7 +6,7 @@ function Card({ title }: Props) {
   return (
     <div>
       <h3>{title}</h3>
-      <p>Card Content</p>
+      <p>Card  Content</p>
     </div>
   );
 }
