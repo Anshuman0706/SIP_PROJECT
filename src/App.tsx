@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -9,8 +10,22 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
   return (
-    <>
+    <div
+      style={{
+        backgroundColor: darkMode ? "#121212" : "#ffffff",
+        color: darkMode ? "#ffffff" : "#000000",
+        minHeight: "100vh",
+      }}
+    >
+      <div style={{ padding: "10px", textAlign: "right" }}>
+        <button onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? " Light Mode" : " Dark Mode"}
+        </button>
+      </div>
+
       <Navbar />
 
       <Routes>
@@ -21,7 +36,7 @@ function App() {
       </Routes>
 
       <Footer />
-    </>
+    </div>
   );
 }
 
