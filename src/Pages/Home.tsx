@@ -1,7 +1,23 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import Hero from "../components/Hero";
 import { Button, Input, Loader } from "../components/ui";
 
 function Home() {
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/products")
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <>
       <Hero />
@@ -24,15 +40,22 @@ function Home() {
         <br />
         <br />
 
-        <div>
-          <h2>Card 1</h2>
-          <p>Card Content</p>
-        </div>
+        <h2>Products from Backend</h2>
 
-        <div>
-          <h2>Card 2</h2>
-          <p>Card Content</p>
-        </div>
+        {products.map((product) => (
+          <div
+            key={product.id}
+            style={{
+              border: "1px solid #ccc",
+              padding: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            <h3>{product.name}</h3>
+            <p>Category: {product.category}</p>
+            <p>Price: ₹{product.price}</p>
+          </div>
+        ))}
       </div>
     </>
   );
