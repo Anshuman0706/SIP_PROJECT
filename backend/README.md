@@ -16,3 +16,8 @@ npm run dev
 http://localhost:5000
 
 The backend will start on port 5000.
+## Schema Diagram
+
+This project uses MongoDB with Mongoose for database integration.
+
+![Schema Diagram](./W5_SchemaDiagram_TBI_26100408.png)

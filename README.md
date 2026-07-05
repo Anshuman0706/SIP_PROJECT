@@ -185,3 +185,9 @@ Future Scope
 - Add authentication and admin product management
 - Improve frontend UI for product listing and forms
 - Deploy full-stack application online
+
+## Schema Diagram
+
+This project uses MongoDB with Mongoose for database integration.
+
+![Schema Diagram](./W5_SchemaDiagram_TBI_26100408.png)
