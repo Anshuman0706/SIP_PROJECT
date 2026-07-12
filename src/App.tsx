@@ -8,6 +8,8 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
+import Profile from "./Pages/Profile";
+import GoogleSuccess from "./Pages/GoogleSuccess";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -22,7 +24,7 @@ function App() {
     >
       <div style={{ padding: "10px", textAlign: "right" }}>
         <button onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? " Light Mode" : " Dark Mode"}
+          {darkMode ? "Light Mode" : "Dark Mode"}
         </button>
       </div>
 
@@ -32,7 +34,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/google-success" element={<GoogleSuccess />} />
       </Routes>
 
       <Footer />
