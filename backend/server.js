@@ -14,6 +14,7 @@ const authRoutes = require("./routes/authRoutes");
 const googleAuthRoutes = require("./routes/googleAuthRoutes");
 
 const app = express();
+const aiRoutes = require("./routes/aiRoutes");
 
 // Connect Database
 connectDB();
@@ -37,6 +38,7 @@ app.use(passport.session());
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/auth", googleAuthRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

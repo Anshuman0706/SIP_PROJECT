@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { Toast } from "../components/ui";
 import { getProfile } from "../api/auth";
 
@@ -37,25 +36,40 @@ function Dashboard() {
 
   return (
     <div style={{ padding: "30px" }}>
+      <Toast message="Login Successful!" type="success" />
+
       <h1>Dashboard</h1>
 
-      <Toast message="Welcome to Dashboard!" type="success" />
-
-      <br />
-      <br />
-
-      {user && (
-        <>
-          <h3>User Details</h3>
+      {user ? (
+        <div
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: "10px",
+            padding: "20px",
+            width: "350px",
+            marginTop: "20px",
+          }}
+        >
+          <h2>Welcome 👋</h2>
 
           <p>
-            <strong>User ID:</strong> {user.id}
+            <strong>Name:</strong> {user.name}
           </p>
 
-          <button onClick={logout}>
-            Logout
-          </button>
-        </>
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
+
+          <p>
+            <strong>User ID:</strong> {user._id}
+          </p>
+
+          <br />
+
+          <button onClick={logout}>Logout</button>
+        </div>
+      ) : (
+        <h3>Loading...</h3>
       )}
     </div>
   );

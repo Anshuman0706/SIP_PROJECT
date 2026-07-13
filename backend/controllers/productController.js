@@ -1,98 +1,141 @@
 const Product = require("../models/Product");
 
-// GET all products
-const getAllProducts = async (req, res) => {
+// Get All Products
+const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({ createdAt: -1 });
+
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// GET single product
+// Get Product By ID
 const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
     if (!product) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({
+        message: "Product not found",
+      });
     }
 
     res.status(200).json(product);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// POST product
+// Create Product
 const createProduct = async (req, res) => {
   try {
     const { name, category, price } = req.body;
 
-    const newProduct = await Product.create({
+    const product = await Product.create({
       name,
       category,
       price,
     });
 
-    res.status(201).json(newProduct);
+    res.status(201).json({
+      message: "Product created successfully",
+      product,
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// PUT product
+// Update Product
 const updateProduct = async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(
+    const product = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true }
+      {
+        new: true,
+        runValidators: true,
+      }
     );
 
-    if (!updatedProduct) {
-      return res.status(404).json({ message: "Product not found" });
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
     }
 
-    res.status(200).json(updatedProduct);
+    res.status(200).json({
+      message: "Product updated successfully",
+      product,
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// DELETE product
+// Delete Product
 const deleteProduct = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findByIdAndDelete(req.params.id);
 
-    if (!deletedProduct) {
-      return res.status(404).json({ message: "Product not found" });
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
     }
 
-    res.status(200).json({ message: "Product deleted successfully" });
+    res.status(200).json({
+      message: "Product deleted successfully",
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// SEARCH product
+// Search Products
 const searchProducts = async (req, res) => {
   try {
-    const keyword = req.query.name || "";
+    const keyword = req.query.keyword || "";
 
     const products = await Product.find({
-      name: { $regex: keyword, $options: "i" },
+      $or: [
+        {
+          name: {
+            $regex: keyword,
+            $options: "i",
+          },
+        },
+        {
+          category: {
+            $regex: keyword,
+            $options: "i",
+          },
+        },
+      ],
     });
 
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
 module.exports = {
-  getAllProducts,
+  getProducts,
   getProductById,
   createProduct,
   updateProduct,

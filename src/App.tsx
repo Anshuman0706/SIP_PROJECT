@@ -9,7 +9,10 @@ import About from "./Pages/About";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
+import Products from "./Pages/Products";
 import GoogleSuccess from "./Pages/GoogleSuccess";
+import GenerateDescription from "./Pages/GenerateDescription";
+import Register from "./Pages/Register";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -22,7 +25,12 @@ function App() {
         minHeight: "100vh",
       }}
     >
-      <div style={{ padding: "10px", textAlign: "right" }}>
+      <div
+        style={{
+          padding: "10px",
+          textAlign: "right",
+        }}
+      >
         <button onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? "Light Mode" : "Dark Mode"}
         </button>
@@ -32,11 +40,26 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+
         <Route path="/about" element={<About />} />
+
         <Route path="/dashboard" element={<Dashboard />} />
+
         <Route path="/profile" element={<Profile />} />
+
+        <Route path="/products" element={<Products />} />
+
+        <Route
+          path="/generate-description"
+          element={<GenerateDescription />}
+        />
+        <Route path ="/register" element={<Register />}/>
         <Route path="/login" element={<Login />} />
-        <Route path="/google-success" element={<GoogleSuccess />} />
+
+        <Route
+          path="/google-success"
+          element={<GoogleSuccess />}
+        />
       </Routes>
 
       <Footer />
