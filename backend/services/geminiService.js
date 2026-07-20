@@ -1,20 +1,18 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
 
-const generateDescription = async (
+async function generateDescription(
   name,
   category,
   ingredients,
   weight,
   tone
-) => {
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash",
-  });
-
+) {
   const prompt = `
-Generate a professional ecommerce product description.
+Generate a professional e-commerce product description.
 
 Product Name: ${name}
 Category: ${category}
@@ -25,14 +23,26 @@ Tone: ${tone}
 Return:
 1. Product Title
 2. SEO Friendly Description
-3. Key Features (5 points)
+3. Key Features (5 bullet points)
 `;
 
-  const result = await model.generateContent(prompt);
+  const response = await ai.models.generateContent({
+    model: "gemini-flash-latest",
+    contents: [
+      {
+        role: "user",
+        parts: [
+          {
+            text: prompt,
+          },
+        ],
+      },
+    ],
+  });
 
-  return result.response.text();
-};
+  console.log(response);
 
-module.exports = {
-  generateDescription,
-};
+  return response.text;
+}
+
+module.exports = { generateDescription };

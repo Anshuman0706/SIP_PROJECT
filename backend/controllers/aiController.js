@@ -29,14 +29,14 @@ const generateProductDescription = async (req, res) => {
       description,
     });
   } catch (error) {
-    console.error(error);
+  console.log(error);
 
-    res.status(500).json({
-      success: false,
-      message: "Failed to generate description",
-      error: error.message,
-    });
-  }
+  res.status(500).json({
+    success: false,
+    message: error.message,
+    details: error,
+  });
+}
 };
 
 module.exports = {
