@@ -7,6 +7,8 @@ const router = express.Router();
 const {
   registerUser,
   loginUser,
+  forgotPassword,
+  resetPassword,
   getProfile,
 } = require("../controllers/authController");
 
@@ -35,6 +37,28 @@ router.post(
     body("password").notEmpty().withMessage("Password is required"),
   ],
   loginUser
+);
+
+// Forgot Password Route
+router.post(
+  "/forgot-password",
+  authLimiter,
+  [
+    body("email").isEmail().withMessage("Enter a valid email"),
+  ],
+  forgotPassword
+);
+
+// Reset Password Route
+router.post(
+  "/reset-password/:token",
+  authLimiter,
+  [
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters"),
+  ],
+  resetPassword
 );
 
 // Protected Profile Route

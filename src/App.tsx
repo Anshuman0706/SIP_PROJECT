@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./Pages/Home";
 import About from "./Pages/About";
@@ -13,6 +14,8 @@ import Products from "./Pages/Products";
 import GoogleSuccess from "./Pages/GoogleSuccess";
 import GenerateDescription from "./Pages/GenerateDescription";
 import Register from "./Pages/Register";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -39,26 +42,66 @@ function App() {
       <Navbar />
 
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
 
         <Route path="/about" element={<About />} />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
 
-        <Route path="/profile" element={<Profile />} />
-
-        <Route path="/products" element={<Products />} />
+        <Route path="/register" element={<Register />} />
 
         <Route
-          path="/generate-description"
-          element={<GenerateDescription />}
+          path="/forgot-password"
+          element={<ForgotPassword />}
         />
-        <Route path ="/register" element={<Register />}/>
-        <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/reset-password/:token"
+          element={<ResetPassword />}
+        />
 
         <Route
           path="/google-success"
           element={<GoogleSuccess />}
+        />
+
+        {/* Protected Routes */}
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute>
+              <Products />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/generate-description"
+          element={
+            <ProtectedRoute>
+              <GenerateDescription />
+            </ProtectedRoute>
+          }
         />
       </Routes>
 

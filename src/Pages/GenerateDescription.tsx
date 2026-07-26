@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { generateDescription } from "../api/ai";
 
 function GenerateDescription() {
@@ -9,19 +10,18 @@ function GenerateDescription() {
   const [tone, setTone] = useState("Professional");
 
   const [description, setDescription] = useState("");
-
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Please login first");
+      toast.error("Please login first");
       return;
     }
 
     if (!name || !category) {
-      alert("Product Name and Category are required");
+      toast.warning("Product Name and Category are required");
       return;
     }
 
@@ -40,8 +40,9 @@ function GenerateDescription() {
       );
 
       setDescription(res.data.description);
+      toast.success("Description Generated Successfully");
     } catch (error: any) {
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Failed to generate description"
       );
@@ -52,8 +53,7 @@ function GenerateDescription() {
 
   const copyDescription = () => {
     navigator.clipboard.writeText(description);
-
-    alert("Description copied!");
+    toast.success("Copied to Clipboard");
   };
 
   return (
@@ -62,83 +62,63 @@ function GenerateDescription() {
         maxWidth: "900px",
         margin: "40px auto",
         padding: "30px",
-        border: "1px solid #ddd",
-        borderRadius: "12px",
+        background: "#fff",
+        borderRadius: "15px",
+        boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
       }}
     >
-      <h1>AI Product Description Generator</h1>
+      <h1
+        style={{
+          textAlign: "center",
+          color: "#1976d2",
+        }}
+      >
+        🤖 AI Product Description Generator
+      </h1>
 
-      <br />
+      <p
+        style={{
+          textAlign: "center",
+          color: "gray",
+          marginBottom: "30px",
+        }}
+      >
+        Generate professional product descriptions using AI.
+      </p>
 
       <input
-        type="text"
         placeholder="Product Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "12px",
-        }}
+        style={inputStyle}
       />
-
-      <br />
-      <br />
 
       <input
-        type="text"
         placeholder="Category"
         value={category}
-        onChange={(e) =>
-          setCategory(e.target.value)
-        }
-        style={{
-          width: "100%",
-          padding: "12px",
-        }}
+        onChange={(e) => setCategory(e.target.value)}
+        style={inputStyle}
       />
-
-      <br />
-      <br />
 
       <textarea
         rows={4}
         placeholder="Ingredients"
         value={ingredients}
-        onChange={(e) =>
-          setIngredients(e.target.value)
-        }
-        style={{
-          width: "100%",
-          padding: "12px",
-        }}
+        onChange={(e) => setIngredients(e.target.value)}
+        style={textareaStyle}
       />
-
-      <br />
-      <br />
 
       <input
-        type="text"
         placeholder="Weight"
         value={weight}
-        onChange={(e) =>
-          setWeight(e.target.value)
-        }
-        style={{
-          width: "100%",
-          padding: "12px",
-        }}
+        onChange={(e) => setWeight(e.target.value)}
+        style={inputStyle}
       />
-
-      <br />
-      <br />
 
       <select
         value={tone}
         onChange={(e) => setTone(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "12px",
-        }}
+        style={inputStyle}
       >
         <option>Professional</option>
         <option>Marketing</option>
@@ -147,69 +127,110 @@ function GenerateDescription() {
         <option>Premium</option>
       </select>
 
-      <br />
-      <br />
-
       <button
         onClick={handleGenerate}
+        disabled={loading}
         style={{
-          padding: "12px 25px",
+          width: "100%",
+          padding: "15px",
+          marginTop: "20px",
+          background: "#1976d2",
+          color: "white",
+          border: "none",
+          borderRadius: "8px",
           cursor: "pointer",
-          fontSize: "16px",
+          fontSize: "17px",
         }}
       >
         {loading
-          ? "Generating..."
-          : "Generate Description"}
+          ? "⏳ Generating Description..."
+          : "🚀 Generate Description"}
       </button>
 
-      <br />
-      <br />
+      {loading && (
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "20px",
+            fontSize: "18px",
+          }}
+        >
+          🤖 AI is thinking...
+        </div>
+      )}
 
       {description && (
         <>
-          <hr />
+          <hr style={{ margin: "30px 0" }} />
 
           <h2>Generated Description</h2>
 
           <textarea
             value={description}
             readOnly
-            rows={15}
-            style={{
-              width: "100%",
-              padding: "15px",
-              marginTop: "15px",
-            }}
+            rows={12}
+            style={textareaStyle}
           />
 
-          <br />
-          <br />
-
-          <button
-            onClick={copyDescription}
+          <div
             style={{
-              padding: "10px 20px",
-              cursor: "pointer",
+              display: "flex",
+              gap: "15px",
+              marginTop: "20px",
             }}
           >
-            Copy Description
-          </button>
+            <button
+              onClick={copyDescription}
+              style={{
+                flex: 1,
+                padding: "12px",
+                background: "#4CAF50",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              📋 Copy
+            </button>
 
-          <button
-            onClick={() => setDescription("")}
-            style={{
-              marginLeft: "15px",
-              padding: "10px 20px",
-              cursor: "pointer",
-            }}
-          >
-            Clear
-          </button>
-          </>
+            <button
+              onClick={() => setDescription("")}
+              style={{
+                flex: 1,
+                padding: "12px",
+                background: "#F44336",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              🗑 Clear
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
 }
+
+const inputStyle = {
+  width: "100%",
+  padding: "12px",
+  marginBottom: "15px",
+  borderRadius: "8px",
+  border: "1px solid #ccc",
+  boxSizing: "border-box" as const,
+};
+
+const textareaStyle = {
+  width: "100%",
+  padding: "12px",
+  marginBottom: "15px",
+  borderRadius: "8px",
+  border: "1px solid #ccc",
+  boxSizing: "border-box" as const,
+};
 
 export default GenerateDescription;

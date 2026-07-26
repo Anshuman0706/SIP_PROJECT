@@ -5,23 +5,34 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true,
     },
 
     email: {
       type: String,
       required: true,
       unique: true,
-      lowercase: true,
     },
 
     password: {
       type: String,
-      default: null,
+      required: function () {
+        return !this.googleId;
+      },
+      default: undefined,
     },
 
     googleId: {
       type: String,
+      default: null,
+    },
+
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
+
+    resetPasswordExpire: {
+      type: Date,
       default: null,
     },
   },
