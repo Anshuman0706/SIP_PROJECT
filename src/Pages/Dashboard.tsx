@@ -1,43 +1,68 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const [userName, setUserName] = useState("User");
+  const [userEmail, setUserEmail] = useState("");
+  const [productCount, setProductCount] = useState(0);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const user = localStorage.getItem("user");
 
     if (user) {
       try {
         const parsedUser = JSON.parse(user);
+
         setUserName(parsedUser.name || "User");
+        setUserEmail(parsedUser.email || "");
       } catch {
         setUserName("User");
       }
     }
-  }, []);
+
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:5000/api/products"
+        );
+
+        setProductCount(res.data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchProducts();
+  }, [navigate]);
 
   const cardStyle = {
-    flex: "1",
-    minWidth: "220px",
-    background: "#fff",
-    borderRadius: "12px",
+    flex: "1 1 220px",
+    background: "#ffffff",
+    borderRadius: "15px",
     padding: "25px",
     textAlign: "center" as const,
-    boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
   };
 
   return (
     <div
       style={{
-        background: "#f5f7fb",
+        background: "#f4f6fb",
         minHeight: "100vh",
-        padding: "35px",
+        padding: "30px",
       }}
     >
-      {/* Welcome Banner */}
+      {/* Welcome */}
 
       <div
         style={{
@@ -46,10 +71,19 @@ function Dashboard() {
           color: "white",
           padding: "35px",
           borderRadius: "15px",
-          marginBottom: "35px",
         }}
       >
         <h1>👋 Welcome, {userName}</h1>
+
+        <p
+          style={{
+            opacity: 0.9,
+            fontSize: "17px",
+            marginBottom: "10px",
+          }}
+        >
+          📧 {userEmail}
+        </p>
 
         <p style={{ fontSize: "18px" }}>
           Manage your products and generate
@@ -57,37 +91,46 @@ function Dashboard() {
         </p>
       </div>
 
-      {/* Stats */}
+      {/* Statistics */}
 
       <div
         style={{
           display: "flex",
-          gap: "20px",
           flexWrap: "wrap",
+          gap: "20px",
+          marginTop: "35px",
         }}
       >
         <div style={cardStyle}>
           <h2>📦 Products</h2>
-          <h1>CRUD</h1>
-          <p>Create, Update & Delete Products</p>
+
+          <h1>{productCount}</h1>
+
+          <p>Total Products</p>
         </div>
 
         <div style={cardStyle}>
           <h2>🤖 AI</h2>
-          <h1>Generate</h1>
-          <p>Generate Product Descriptions</p>
+
+          <h1>AI</h1>
+
+          <p>Generate Smart Descriptions</p>
         </div>
 
         <div style={cardStyle}>
           <h2>🔒 Security</h2>
-          <h1>JWT</h1>
-          <p>Protected Authentication</p>
+
+          <h1>Secure</h1>
+
+          <p>JWT Protected Routes</p>
         </div>
 
         <div style={cardStyle}>
           <h2>🌐 Login</h2>
-          <h1>Google</h1>
-          <p>OAuth Authentication</p>
+
+          <h1>OAuth</h1>
+
+          <p>Google Sign In</p>
         </div>
       </div>
 
@@ -95,11 +138,11 @@ function Dashboard() {
 
       <div
         style={{
-          marginTop: "40px",
           background: "white",
-          borderRadius: "12px",
+          marginTop: "40px",
           padding: "30px",
-          boxShadow: "0 6px 18px rgba(0,0,0,.08)",
+          borderRadius: "15px",
+          boxShadow: "0 8px 20px rgba(0,0,0,.08)",
         }}
       >
         <h2>🚀 Quick Actions</h2>
@@ -113,24 +156,24 @@ function Dashboard() {
           }}
         >
           <button
-            onClick={() => navigate("/products")}
             style={buttonStyle}
+            onClick={() => navigate("/products")}
           >
             📦 Manage Products
           </button>
 
           <button
+            style={buttonStyle}
             onClick={() =>
               navigate("/generate-description")
             }
-            style={buttonStyle}
           >
             🤖 Generate AI
           </button>
 
           <button
-            onClick={() => navigate("/profile")}
             style={buttonStyle}
+            onClick={() => navigate("/profile")}
           >
             👤 View Profile
           </button>
@@ -141,11 +184,11 @@ function Dashboard() {
 
       <div
         style={{
-          marginTop: "35px",
           background: "white",
-          borderRadius: "12px",
+          marginTop: "35px",
           padding: "30px",
-          boxShadow: "0 6px 18px rgba(0,0,0,.08)",
+          borderRadius: "15px",
+          boxShadow: "0 8px 20px rgba(0,0,0,.08)",
         }}
       >
         <h2>✨ Project Features</h2>
@@ -160,11 +203,11 @@ function Dashboard() {
           <li>✅ Google OAuth Login</li>
           <li>✅ Forgot Password</li>
           <li>✅ Reset Password</li>
-          <li>✅ Product CRUD</li>
+          <li>✅ Product CRUD Operations</li>
           <li>✅ Product Search</li>
           <li>✅ AI Description Generator</li>
-          <li>✅ Responsive UI</li>
-          <li>✅ Protected Routes</li>
+          <li>✅ Protected Dashboard</li>
+          <li>✅ Responsive Design</li>
           <li>✅ Dark Mode</li>
         </ul>
       </div>
@@ -173,13 +216,14 @@ function Dashboard() {
 }
 
 const buttonStyle = {
-  padding: "12px 20px",
+  padding: "14px 22px",
   background: "#1976d2",
   color: "white",
   border: "none",
-  borderRadius: "8px",
+  borderRadius: "10px",
   cursor: "pointer",
-  fontSize: "15px",
+  fontSize: "16px",
+  fontWeight: "bold" as const,
 };
 
 export default Dashboard;

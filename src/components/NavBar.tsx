@@ -1,65 +1,103 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
 
+  const [mobile, setMobile] = useState(window.innerWidth <= 768);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const resize = () => {
+      setMobile(window.innerWidth <= 768);
+
+      if (window.innerWidth > 768) {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", resize);
+
+    return () => window.removeEventListener("resize", resize);
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
-    alert("Logged out successfully");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 
   const linkStyle = {
     color: "white",
     textDecoration: "none",
-    fontWeight: "600",
-    fontSize: "16px",
-    padding: "8px 12px",
-    borderRadius: "6px",
-    transition: "0.3s",
+    padding: "10px",
+    fontWeight: "bold",
+    display: "block",
   };
 
   return (
     <nav
       style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 1000,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        padding: "15px 30px",
         background: "#1976d2",
         color: "white",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+        padding: "15px 20px",
       }}
     >
-      <Link
-        to="/"
-        style={{
-          color: "white",
-          textDecoration: "none",
-        }}
-      >
-        <h2
-          style={{
-            margin: 0,
-          }}
-        >
-          🤖 DescAI
-        </h2>
-      </Link>
-
       <div
         style={{
           display: "flex",
-          gap: "12px",
+          justifyContent: "space-between",
           alignItems: "center",
-          flexWrap: "wrap",
-          marginTop: "8px",
+        }}
+      >
+        <Link
+          to="/"
+          style={{
+            color: "white",
+            textDecoration: "none",
+            fontSize: "24px",
+            fontWeight: "bold",
+          }}
+        >
+          🤖 DescAI
+        </Link>
+
+        {mobile && (
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{
+              background: "transparent",
+              color: "white",
+              border: "none",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+          >
+            ☰
+          </button>
+        )}
+      </div>
+
+      <div
+        style={{
+          display:
+            mobile
+              ? menuOpen
+                ? "flex"
+                : "none"
+              : "flex",
+
+          flexDirection: mobile ? "column" : "row",
+
+          justifyContent: mobile ? "flex-start" : "center",
+
+          alignItems: "center",
+
+          gap: "15px",
+
+          marginTop: mobile ? "15px" : "10px",
         }}
       >
         <Link to="/" style={linkStyle}>
@@ -103,13 +141,12 @@ function Navbar() {
           <button
             onClick={logout}
             style={{
-              backgroundColor: "#f44336",
+              background: "#f44336",
               color: "white",
               border: "none",
               padding: "10px 18px",
-              borderRadius: "8px",
+              borderRadius: "6px",
               cursor: "pointer",
-              fontWeight: "bold",
             }}
           >
             Logout

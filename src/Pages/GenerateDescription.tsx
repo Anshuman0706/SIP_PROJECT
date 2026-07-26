@@ -79,7 +79,7 @@ function GenerateDescription() {
       <p
         style={{
           textAlign: "center",
-          color: "gray",
+          color: "#666",
           marginBottom: "30px",
         }}
       >
@@ -133,17 +133,16 @@ function GenerateDescription() {
         style={{
           width: "100%",
           padding: "15px",
-          marginTop: "20px",
-          background: "#1976d2",
+          background: loading ? "#90caf9" : "#1976d2",
           color: "white",
           border: "none",
           borderRadius: "8px",
-          cursor: "pointer",
+          cursor: loading ? "not-allowed" : "pointer",
           fontSize: "17px",
         }}
       >
         {loading
-          ? "⏳ Generating Description..."
+          ? "⏳ Generating..."
           : "🚀 Generate Description"}
       </button>
 
@@ -151,18 +150,52 @@ function GenerateDescription() {
         <div
           style={{
             textAlign: "center",
-            marginTop: "20px",
-            fontSize: "18px",
+            marginTop: "25px",
           }}
         >
-          🤖 AI is thinking...
+          <div
+            style={{
+              width: "45px",
+              height: "45px",
+              margin: "0 auto",
+              border: "5px solid #ddd",
+              borderTop: "5px solid #1976d2",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+            }}
+          />
+
+          <p style={{ marginTop: "15px" }}>
+            AI is generating your description...
+          </p>
+        </div>
+      )}
+
+      {!loading && !description && (
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "30px",
+            color: "#777",
+            border: "1px dashed #ccc",
+            padding: "25px",
+            borderRadius: "10px",
+          }}
+        >
+          No description generated yet.
         </div>
       )}
 
       {description && (
-        <>
-          <hr style={{ margin: "30px 0" }} />
-
+        <div
+          style={{
+            marginTop: "30px",
+            border: "1px solid #ddd",
+            borderRadius: "10px",
+            padding: "20px",
+            background: "#fafafa",
+          }}
+        >
           <h2>Generated Description</h2>
 
           <textarea
@@ -172,45 +205,55 @@ function GenerateDescription() {
             style={textareaStyle}
           />
 
+          <p
+            style={{
+              textAlign: "right",
+              color: "#666",
+              marginBottom: "15px",
+            }}
+          >
+            Characters: {description.length}
+          </p>
+
           <div
             style={{
               display: "flex",
-              gap: "15px",
-              marginTop: "20px",
+              gap: "10px",
+              flexWrap: "wrap",
             }}
           >
             <button
               onClick={copyDescription}
-              style={{
-                flex: 1,
-                padding: "12px",
-                background: "#4CAF50",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
+              style={greenButton}
             >
               📋 Copy
             </button>
 
             <button
               onClick={() => setDescription("")}
-              style={{
-                flex: 1,
-                padding: "12px",
-                background: "#F44336",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
+              style={redButton}
             >
               🗑 Clear
             </button>
+
+            <button
+              onClick={handleGenerate}
+              style={blueButton}
+            >
+              🔄 Regenerate
+            </button>
           </div>
-        </>
+        </div>
       )}
+
+      <style>
+        {`
+          @keyframes spin {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+          }
+        `}
+      </style>
     </div>
   );
 }
@@ -227,10 +270,30 @@ const inputStyle = {
 const textareaStyle = {
   width: "100%",
   padding: "12px",
-  marginBottom: "15px",
   borderRadius: "8px",
   border: "1px solid #ccc",
   boxSizing: "border-box" as const,
+};
+
+const blueButton = {
+  flex: 1,
+  minWidth: "150px",
+  padding: "12px",
+  background: "#1976d2",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+};
+
+const greenButton = {
+  ...blueButton,
+  background: "#4CAF50",
+};
+
+const redButton = {
+  ...blueButton,
+  background: "#f44336",
 };
 
 export default GenerateDescription;

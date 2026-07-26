@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser, googleLogin } from "../api/auth";
@@ -9,6 +9,15 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleLogin = async () => {
     if (!email || !password) {

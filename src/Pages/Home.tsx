@@ -5,12 +5,16 @@ function Home() {
 
   const featureCard = {
     flex: "1",
-    minWidth: "250px",
-    background: "#fff",
+    minWidth: "220px",
+    maxWidth: "350px",
+    width: "100%",
+    background: "#ffffff",
     padding: "25px",
-    borderRadius: "12px",
-    boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+    borderRadius: "14px",
+    boxShadow: "0 6px 18px rgba(0,0,0,.08)",
     textAlign: "center" as const,
+    transition: "0.3s",
+    margin: "0 auto",
   };
 
   return (
@@ -20,21 +24,23 @@ function Home() {
         minHeight: "100vh",
       }}
     >
-      {/* Hero Section */}
+      {/* ================= HERO ================= */}
 
       <section
         style={{
           background:
             "linear-gradient(135deg,#1976d2,#42a5f5)",
           color: "white",
-          textAlign: "center",
           padding: "80px 20px",
+          textAlign: "center",
         }}
       >
         <h1
           style={{
-            fontSize: "48px",
-            marginBottom: "20px",
+            fontSize: "clamp(42px,8vw,70px)",
+            marginBottom: "15px",
+            lineHeight: "1.2",
+            wordBreak: "break-word",
           }}
         >
           🤖 DescAI
@@ -42,7 +48,7 @@ function Home() {
 
         <h2
           style={{
-            fontSize: "30px",
+            fontSize: "clamp(24px,5vw,38px)",
             marginBottom: "20px",
           }}
         >
@@ -51,26 +57,27 @@ function Home() {
 
         <p
           style={{
-            maxWidth: "850px",
-            margin: "auto",
-            fontSize: "20px",
-            lineHeight: "35px",
+            maxWidth: "900px",
+            margin: "0 auto",
+            lineHeight: "1.8",
+            fontSize: "clamp(16px,2.5vw,20px)",
+            padding: "0 15px",
           }}
         >
-          Create high-quality, SEO-friendly,
-          engaging product descriptions within
+          Generate SEO-friendly, engaging and
+          professional product descriptions in
           seconds using Artificial Intelligence.
-          Increase your sales with professional
-          product content generated instantly.
+          Save time, improve quality and boost
+          your product sales with DescAI.
         </p>
 
         <div
           style={{
-            marginTop: "35px",
             display: "flex",
             justifyContent: "center",
-            gap: "20px",
+            gap: "18px",
             flexWrap: "wrap",
+            marginTop: "40px",
           }}
         >
           <button
@@ -79,28 +86,32 @@ function Home() {
             }
             style={{
               padding: "15px 30px",
+              background: "white",
+              color: "#1976d2",
               border: "none",
               borderRadius: "8px",
               cursor: "pointer",
-              fontSize: "17px",
-              background: "white",
-              color: "#1976d2",
               fontWeight: "bold",
+              fontSize: "16px",
+              minWidth: "200px",
             }}
           >
             🚀 Generate Now
           </button>
 
           <button
-            onClick={() => navigate("/products")}
+            onClick={() =>
+              navigate("/products")
+            }
             style={{
               padding: "15px 30px",
+              background: "transparent",
+              color: "white",
               border: "2px solid white",
               borderRadius: "8px",
               cursor: "pointer",
-              fontSize: "17px",
-              background: "transparent",
-              color: "white",
+              fontSize: "16px",
+              minWidth: "200px",
             }}
           >
             📦 View Products
@@ -108,144 +119,189 @@ function Home() {
         </div>
       </section>
 
-      {/* Why DescAI */}
+      {/* ================= WHY CHOOSE ================= */}
 
       <section
         style={{
-          padding: "70px 40px",
-          textAlign: "center",
+          padding: "70px 20px",
         }}
       >
-        <h1>Why Choose DescAI?</h1>
-
-        <p
+        <h2
           style={{
-            color: "gray",
-            fontSize: "18px",
-            maxWidth: "900px",
-            margin: "20px auto",
-            lineHeight: "30px",
+            textAlign: "center",
+            fontSize: "clamp(30px,5vw,42px)",
+            marginBottom: "50px",
+            color: "#1976d2",
           }}
         >
-          DescAI helps businesses, sellers,
-          startups and e-commerce owners generate
-          professional product descriptions with
-          AI. Save hours of manual writing and
-          improve your product listings instantly.
-        </p>
+          Why Choose DescAI?
+        </h2>
 
         <div
           style={{
             display: "flex",
-            gap: "20px",
             flexWrap: "wrap",
-            marginTop: "50px",
+            justifyContent: "center",
+            gap: "25px",
           }}
         >
           <div style={featureCard}>
-            <h2>🤖 AI Powered</h2>
+            <h2>⚡ Fast</h2>
 
             <p>
-              Generate professional product
-              descriptions using AI.
+              Generate product descriptions
+              within seconds using AI.
             </p>
           </div>
 
           <div style={featureCard}>
-            <h2>🔍 SEO Optimized</h2>
+            <h2>🎯 SEO Friendly</h2>
 
             <p>
-              Improve product visibility with
-              SEO-friendly descriptions.
+              Optimized content for Amazon,
+              Flipkart and Shopify.
             </p>
           </div>
 
           <div style={featureCard}>
-            <h2>⚡ Instant Results</h2>
+            <h2>✨ Premium Quality</h2>
 
             <p>
-              Generate descriptions within
-              seconds.
+              Professional descriptions written
+              with AI assistance.
+            </p>
+          </div>
+
+          <div style={featureCard}>
+            <h2>📋 Copy Instantly</h2>
+
+            <p>
+              One-click copy and reuse your
+              generated content.
             </p>
           </div>
         </div>
       </section>
-
-      {/* Quick Statistics */}
+            {/* ================= Statistics ================= */}
 
       <section
         style={{
           background: "#1976d2",
           color: "white",
-          padding: "60px 20px",
+          padding: "70px 20px",
         }}
       >
         <div
           style={{
             display: "flex",
-            justifyContent: "space-around",
             flexWrap: "wrap",
-            textAlign: "center",
+            justifyContent: "center",
             gap: "30px",
+            textAlign: "center",
           }}
         >
-          <div>
-            <h1>10+</h1>
-            <p>Powerful Features</p>
+          <div
+            style={{
+              minWidth: "180px",
+              flex: "1",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: "clamp(40px,8vw,60px)",
+                margin: 0,
+              }}
+            >
+              500+
+            </h1>
+
+            <p>Descriptions Generated</p>
           </div>
 
-          <div>
-            <h1>100%</h1>
-            <p>Responsive Design</p>
+          <div
+            style={{
+              minWidth: "180px",
+              flex: "1",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: "clamp(40px,8vw,60px)",
+                margin: 0,
+              }}
+            >
+              100+
+            </h1>
+
+            <p>Happy Users</p>
           </div>
 
-          <div>
-            <h1>AI</h1>
-            <p>Powered Generation</p>
+          <div
+            style={{
+              minWidth: "180px",
+              flex: "1",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: "clamp(40px,8vw,60px)",
+                margin: 0,
+              }}
+            >
+              24/7
+            </h1>
+
+            <p>AI Availability</p>
           </div>
 
-          <div>
-            <h1>24/7</h1>
-            <p>Available Anytime</p>
+          <div
+            style={{
+              minWidth: "180px",
+              flex: "1",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: "clamp(40px,8vw,60px)",
+                margin: 0,
+              }}
+            >
+              SEO
+            </h1>
+
+            <p>Optimized Content</p>
           </div>
         </div>
       </section>
-            {/* Features */}
+
+      {/* ================= Features ================= */}
 
       <section
         style={{
-          padding: "70px 40px",
-          background: "#ffffff",
+          padding: "70px 20px",
         }}
       >
-        <h1
+        <h2
           style={{
             textAlign: "center",
+            color: "#1976d2",
+            fontSize: "clamp(30px,5vw,42px)",
             marginBottom: "50px",
           }}
         >
-          🚀 Powerful Features
-        </h1>
+          Powerful Features
+        </h2>
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(250px,1fr))",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
             gap: "25px",
           }}
         >
           <div style={featureCard}>
-            <h2>📦 Product Management</h2>
-
-            <p>
-              Create, Update, Delete and Search
-              products easily.
-            </p>
-          </div>
-
-          <div style={featureCard}>
-            <h2>🤖 AI Generator</h2>
+            <h2>🤖 AI Generation</h2>
 
             <p>
               Generate professional product
@@ -254,11 +310,20 @@ function Home() {
           </div>
 
           <div style={featureCard}>
+            <h2>📦 Product Management</h2>
+
+            <p>
+              Complete Create, Read, Update and
+              Delete functionality.
+            </p>
+          </div>
+
+          <div style={featureCard}>
             <h2>🔒 Secure Login</h2>
 
             <p>
               JWT Authentication with Google
-              OAuth support.
+              OAuth integration.
             </p>
           </div>
 
@@ -266,17 +331,17 @@ function Home() {
             <h2>📱 Responsive</h2>
 
             <p>
-              Optimized for Desktop, Tablet and
-              Mobile devices.
+              Works perfectly on mobile,
+              tablet and desktop.
             </p>
           </div>
 
           <div style={featureCard}>
-            <h2>📋 Copy Description</h2>
+            <h2>🌙 Dark Mode</h2>
 
             <p>
-              Copy generated descriptions with
-              just one click.
+              Switch between light and dark
+              themes easily.
             </p>
           </div>
 
@@ -284,184 +349,151 @@ function Home() {
             <h2>⚡ Fast Performance</h2>
 
             <p>
-              AI generates descriptions within
-              seconds.
+              Built using React, Node.js,
+              Express and MongoDB.
             </p>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* ================= How It Works ================= */}
 
       <section
         style={{
-          padding: "70px 30px",
-          background: "#f5f7fb",
+          background: "#ffffff",
+          padding: "70px 20px",
         }}
       >
-        <h1
+        <h2
           style={{
             textAlign: "center",
-            marginBottom: "60px",
+            color: "#1976d2",
+            fontSize: "clamp(30px,5vw,42px)",
+            marginBottom: "50px",
           }}
         >
-          ⚙️ How DescAI Works
-        </h1>
+          How It Works
+        </h2>
 
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
             flexWrap: "wrap",
-            gap: "20px",
+            justifyContent: "center",
+            gap: "30px",
           }}
         >
-          {[
-            {
-              icon: "📝",
-              title: "Register",
-              text: "Create your DescAI account."
-            },
-            {
-              icon: "🔑",
-              title: "Login",
-              text: "Secure authentication using JWT."
-            },
-            {
-              icon: "📦",
-              title: "Add Product",
-              text: "Enter product details."
-            },
-            {
-              icon: "🤖",
-              title: "Generate",
-              text: "AI creates optimized descriptions."
-            },
-            {
-              icon: "📋",
-              title: "Copy",
-              text: "Copy & use anywhere."
-            }
-          ].map((step, index) => (
-            <div
-              key={index}
-              style={featureCard}
-            >
-              <h1>{step.icon}</h1>
+          <div style={featureCard}>
+            <h1>1️⃣</h1>
 
-              <h2>{step.title}</h2>
+            <h3>Enter Product Details</h3>
 
-              <p>{step.text}</p>
-            </div>
-          ))}
+            <p>
+              Fill product name, category,
+              ingredients and weight.
+            </p>
+          </div>
+
+          <div style={featureCard}>
+            <h1>2️⃣</h1>
+
+            <h3>Select Tone</h3>
+
+            <p>
+              Choose Professional, Marketing,
+              SEO or Premium style.
+            </p>
+          </div>
+
+          <div style={featureCard}>
+            <h1>3️⃣</h1>
+
+            <h3>Generate AI Content</h3>
+
+            <p>
+              AI instantly creates a polished
+              product description.
+            </p>
+          </div>
+
+          <div style={featureCard}>
+            <h1>4️⃣</h1>
+
+            <h3>Copy & Use</h3>
+
+            <p>
+              Copy the generated content and
+              use it anywhere.
+            </p>
+          </div>
         </div>
       </section>
-
-      {/* Technology Stack */}
+            {/* ================= Technology ================= */}
 
       <section
         style={{
-          padding: "70px 30px",
-          background: "#ffffff",
-        }}
-      >
-        <h1
-          style={{
-            textAlign: "center",
-            marginBottom: "50px",
-          }}
-        >
-          💻 Technology Stack
-        </h1>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(180px,1fr))",
-            gap: "20px",
-          }}
-        >
-          {[
-            "⚛ React",
-            "🟢 Node.js",
-            "🚂 Express",
-            "🍃 MongoDB",
-            "🔐 JWT",
-            "🌍 Google OAuth",
-            "🤖 OpenAI API",
-            "📡 Axios",
-          ].map((tech, index) => (
-            <div
-              key={index}
-              style={{
-                background: "#1976d2",
-                color: "white",
-                padding: "20px",
-                borderRadius: "10px",
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
-            >
-              {tech}
-            </div>
-          ))}
-        </div>
-      </section>
-            {/* Benefits */}
-
-      <section
-        style={{
-          padding: "70px 30px",
+          padding: "70px 20px",
           background: "#f5f7fb",
         }}
       >
-        <h1
+        <h2
           style={{
             textAlign: "center",
+            color: "#1976d2",
+            fontSize: "clamp(30px,5vw,42px)",
             marginBottom: "50px",
           }}
         >
-          ⭐ Why Businesses Love DescAI
-        </h1>
+          Built With Modern Technologies
+        </h2>
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(250px,1fr))",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
             gap: "25px",
           }}
         >
-          {[
-            "⏳ Saves Hours of Manual Writing",
-            "🚀 Increases Product Sales",
-            "🔍 SEO Optimized Content",
-            "🤖 AI Powered Descriptions",
-            "📈 Better Product Visibility",
-            "💼 Professional Writing Style",
-            "📋 One Click Copy",
-            "🔒 Secure Authentication",
-          ].map((item, index) => (
-            <div
-              key={index}
-              style={{
-                background: "#fff",
-                padding: "25px",
-                borderRadius: "12px",
-                boxShadow:
-                  "0 5px 15px rgba(0,0,0,.08)",
-                fontSize: "18px",
-                fontWeight: "500",
-              }}
-            >
-              {item}
-            </div>
-          ))}
+          <div style={featureCard}>
+            <h1>⚛️</h1>
+            <h3>React</h3>
+            <p>Modern frontend framework for responsive UI.</p>
+          </div>
+
+          <div style={featureCard}>
+            <h1>🟢</h1>
+            <h3>Node.js</h3>
+            <p>Fast backend runtime for scalable APIs.</p>
+          </div>
+
+          <div style={featureCard}>
+            <h1>🚀</h1>
+            <h3>Express.js</h3>
+            <p>REST API development with clean routing.</p>
+          </div>
+
+          <div style={featureCard}>
+            <h1>🍃</h1>
+            <h3>MongoDB</h3>
+            <p>Flexible NoSQL database for storing products.</p>
+          </div>
+
+          <div style={featureCard}>
+            <h1>🤖</h1>
+            <h3>OpenAI</h3>
+            <p>AI-powered product description generation.</p>
+          </div>
+
+          <div style={featureCard}>
+            <h1>🔐</h1>
+            <h3>JWT</h3>
+            <p>Secure authentication and protected routes.</p>
+          </div>
         </div>
       </section>
 
-      {/* Call To Action */}
+      {/* ================= CTA ================= */}
 
       <section
         style={{
@@ -472,27 +504,25 @@ function Home() {
           padding: "80px 20px",
         }}
       >
-        <h1
+        <h2
           style={{
-            fontSize: "40px",
+            fontSize: "clamp(30px,6vw,48px)",
             marginBottom: "20px",
           }}
         >
-          🚀 Ready to Generate Amazing Product Descriptions?
-        </h1>
+          Ready to Generate Amazing Product Descriptions?
+        </h2>
 
         <p
           style={{
             maxWidth: "800px",
-            margin: "auto",
-            fontSize: "20px",
-            lineHeight: "35px",
+            margin: "0 auto",
+            fontSize: "18px",
+            lineHeight: "1.8",
           }}
         >
-          Join DescAI today and let Artificial
-          Intelligence create professional,
-          engaging and SEO-friendly product
-          descriptions for your business.
+          Join DescAI and create high-quality,
+          SEO-friendly product descriptions in seconds.
         </p>
 
         <button
@@ -502,68 +532,44 @@ function Home() {
           style={{
             marginTop: "35px",
             padding: "16px 35px",
-            fontSize: "18px",
             border: "none",
             borderRadius: "8px",
             background: "white",
             color: "#1976d2",
             cursor: "pointer",
             fontWeight: "bold",
-          }}
-        >
-          🤖 Start Generating
-        </button>
-      </section>
-
-      {/* Footer Info */}
-
-      <section
-        style={{
-          background: "#0d1117",
-          color: "white",
-          textAlign: "center",
-          padding: "50px 20px",
-        }}
-      >
-        <h2>DescAI</h2>
-
-        <p
-          style={{
-            color: "#bbb",
-            marginTop: "15px",
             fontSize: "17px",
           }}
         >
-          AI Powered Product Description Generator
-        </p>
+          🚀 Start Generating
+        </button>
+      </section>
 
-        <div
-          style={{
-            marginTop: "30px",
-            display: "flex",
-            justifyContent: "center",
-            gap: "20px",
-            flexWrap: "wrap",
-            color: "#ccc",
-          }}
-        >
-          <span>⚛ React</span>
-          <span>🟢 Node.js</span>
-          <span>🚂 Express</span>
-          <span>🍃 MongoDB</span>
-          <span>🤖 OpenAI</span>
-        </div>
+      {/* ================= Footer ================= */}
+
+      <footer
+        style={{
+          background: "#0d47a1",
+          color: "white",
+          padding: "35px 20px",
+          textAlign: "center",
+        }}
+      >
+        <h2>🤖 DescAI</h2>
+
+        <p>
+          AI Product Description Generator
+        </p>
 
         <p
           style={{
-            marginTop: "30px",
-            color: "#888",
+            marginTop: "20px",
+            color: "#ddd",
           }}
         >
-          © 2026 DescAI | Built with ❤️ using
-          MERN Stack
+          © 2026 DescAI. All Rights Reserved.
         </p>
-      </section>
+      </footer>
     </div>
   );
 }
