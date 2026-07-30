@@ -10,7 +10,7 @@ const {
   forgotPassword,
   resetPassword,
   getProfile,
-} = require("../controllers/authController");
+} = require("../controllers/authcontroller");
 
 const { protect } = require("../middleware/authMiddleware");
 
