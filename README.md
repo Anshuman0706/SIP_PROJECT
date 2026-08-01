@@ -1,193 +1,115 @@
-# SIP_PROJECT
-Building a web tool where a user inputs: product name, key ingredients, weight, and a brief feature list and receives an AI-generated product description optimized for e-commerce. Build in a tone selector (premium, traditional, health-focused) and allow the user to regenerate or edit the output before copying it.
+# DescAI – AI Product Description Generator
 
-.AI Product Description Generator
+DescAI is a full-stack web application that helps users create product descriptions for e-commerce platforms using AI.
 
-A full-stack web application built with React, Node.js, Express, MongoDB Atlas, and Mongoose for managing product data and generating product-related content.
-
----
-
-Features
-
-- Product CRUD API using Express and MongoDB
-- Fetch all products from database
-- Fetch single product by ID
-- Create a new product
-- Update an existing product
-- Delete a product
-- Search products by name
-- Frontend connected with backend API
+Users can enter product details such as the product name, category, key ingredients, weight, features, and preferred writing tone. The application generates an AI-based product description that users can review, edit, regenerate, and copy.
 
 ---
 
-Tech Stack
+## Live Demo
 
-Frontend
+### Frontend
+
+🔗 **Live Application:**  
+https://descai-frontend.onrender.com
+
+### Backend
+
+🔗 **Backend API:**  
+https://descai-backend.onrender.com
+
+### GitHub Repository
+
+🔗 **Source Code:**  
+https://github.com/Anshuman0706/SIP_PROJECT.git
+
+---
+
+## Project Features
+
+### Authentication
+
+- User registration
+- User login
+- JWT-based authentication
+- Protected user profile
+- Google OAuth login
+- Forgot password functionality
+- Password reset using a secure reset token
+- Password encryption using bcrypt
+
+### AI Product Description Generator
+
+- Enter product name
+- Select product category
+- Add key ingredients
+- Enter product weight
+- Add product features
+- Select a writing tone:
+  - Premium
+  - Traditional
+  - Health-focused
+- Generate an AI-based product description
+- Regenerate the description
+- Edit the generated output
+- Copy the final description
+
+### Product Management
+
+- Add new products
+- View all products
+- Search products
+- Edit product details
+- Delete products
+- Store product data in MongoDB Atlas
+
+### Deployment
+
+- Frontend deployed online
+- Backend deployed on Render
+- MongoDB Atlas used as the cloud database
+- Frontend connected to the deployed backend using environment variables
+
+---
+
+## Tech Stack
+
+### Frontend
 
 - React
+- TypeScript
 - Vite
+- React Router
 - Axios
+- React Toastify
+- Bootstrap
 
-Backend
+### Backend
 
 - Node.js
 - Express.js
 - MongoDB Atlas
 - Mongoose
+- JSON Web Token (JWT)
+- bcryptjs
+- Passport.js
+- Google OAuth
+- Express Validator
+- Express Rate Limit
+
+### AI Integration
+
+- Google Gemini API
 
 ---
 
-Database Used
+## Project Architecture
 
-This project uses MongoDB Atlas as the cloud database and Mongoose as the ODM for interacting with MongoDB.
-
-Why MongoDB?
-
-MongoDB was chosen because:
-
-- It stores data in flexible JSON-like documents
-- It integrates well with Node.js and Express
-- It is easy to scale and use for product-based applications
-- MongoDB Atlas provides a cloud-hosted database setup
-
----
-
-Product Schema
-
-The application stores product data in the Product collection with the following schema:
-
-- name → String
-- category → String
-- price → Number
-- createdAt → Date
-- updatedAt → Date
-
-Product Model
-
-const mongoose = require("mongoose");
-
-const productSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Product name is required"],
-      trim: true,
-    },
-    category: {
-      type: String,
-      required: [true, "Category is required"],
-      trim: true,
-    },
-    price: {
-      type: Number,
-      required: [true, "Price is required"],
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-module.exports = mongoose.model("Product", productSchema);
-
----
-
-API Endpoints
-
-Product Routes
-
-- GET "/api/products" → Get all products
-- GET "/api/products/:id" → Get product by ID
-- POST "/api/products" → Create a new product
-- PUT "/api/products/:id" → Update a product
-- DELETE "/api/products/:id" → Delete a product
-- GET "/api/products/search?name=keyword" → Search products by name
-
----
-
-Database Setup Instructions
-
-1. Clone the repository
-
-git clone <your-repo-link>
-cd react-app
-
-2. Install frontend dependencies
-
-npm install
-
-3. Install backend dependencies
-
-cd backend
-npm install
-
-4. Create ".env" file inside backend folder
-
-Create a file named ".env" inside the "backend" folder and add:
-
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
-
-5. Start backend server
-
-Inside the backend folder:
-
-npm run dev
-
-6. Start frontend server
-
-Open another terminal in the root project folder:
-
-npm run dev
-
----
-
-
-
-Folder Structure
-
-react-app/
-│
-├── backend/
-│   ├── config/
-│   │   └── db.js
-│   ├── controllers/
-│   │   └── productController.js
-│   ├── middleware/
-│   │   └── errorHandler.js
-│   ├── models/
-│   │   └── Product.js
-│   ├── routes/
-│   │   └── productRoutes.js
-│   ├── .env.example
-│   ├── package.json
-│   └── server.js
-│
-├── public/
-├── src/
-├── package.json
-└── README.md
-
----
-
-Current Progress
-
-- Backend connected to MongoDB Atlas
-- Product CRUD API integrated with database
-- Search API implemented
-- Frontend and backend setup completed
-
----
-
-Future Scope
-
-- Add AI-generated product descriptions
-- Add authentication and admin product management
-- Improve frontend UI for product listing and forms
-- Deploy full-stack application online
-
-## Schema Diagram
-
-This project uses MongoDB with Mongoose for database integration.
-
-![Schema Diagram](./W5_SchemaDiagram_TBI_26100408.png)
+```text
+React + TypeScript Frontend
+            ↓
+Node.js + Express Backend
+            ↓
+MongoDB Atlas Database
+            ↓
+Google Gemini AI
