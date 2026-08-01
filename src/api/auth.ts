@@ -1,7 +1,10 @@
 import axios from "axios";
+console.log("API URL:", import.meta.env.VITE_API_URL);
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/auth`,
+  baseURL: `${API_URL}/api/auth`,
 });
 
 // Register User
@@ -47,6 +50,5 @@ export const getProfile = (token: string) => {
 
 // Google Login
 export const googleLogin = () => {
-  window.location.href =
-    `${import.meta.env.VITE_API_URL}/api/auth/google`;
+  window.location.href = `${API_URL}/api/auth/google`;
 };
