@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser, googleLogin } from "../api/auth";
 
@@ -9,8 +9,9 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // Redirect if already logged in
+  // If user is already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -19,171 +20,323 @@ function Login() {
     }
   }, [navigate]);
 
+  // Login function
   const handleLogin = async () => {
-    if (!email || !password) {
+    if (!email.trim() || !password.trim()) {
       toast.warning("Please enter email and password");
       return;
     }
 
     try {
+      setLoading(true);
+
       const res = await loginUser({
         email,
         password,
       });
 
-      // Save JWT Token
-      localStorage.setItem("token", res.data.token);
+      // Save token
+      localStorage.setItem(
+        "token",
+        res.data.token
+      );
 
-      // Save User Details
+      // Save user details
       localStorage.setItem(
         "user",
         JSON.stringify(res.data.user)
       );
 
-      toast.success("Login Successful!");
+      toast.success("Login successful");
 
       navigate("/dashboard");
-    } catch (err: any) {
+    } catch (error: any) {
       toast.error(
-        err.response?.data?.message || "Login Failed"
+        error.response?.data?.message ||
+          "Login failed"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div
       style={{
-        padding: "30px",
-        maxWidth: "400px",
-        margin: "50px auto",
-        textAlign: "center",
-        border: "1px solid #ddd",
-        borderRadius: "12px",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-        background: "#fff",
+        minHeight: "calc(100vh - 150px)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "45px 20px",
+        background:
+          "linear-gradient(135deg, #eef8f7, #f7fcfb)",
       }}
     >
-      <h1
-        style={{
-          color: "#1976d2",
-          marginBottom: "25px",
-        }}
-      >
-        Login
-      </h1>
-
-      <input
-        type="email"
-        placeholder="Enter Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={inputStyle}
-      />
-
       <div
         style={{
-          display: "flex",
-          marginBottom: "10px",
+          width: "100%",
+          maxWidth: "430px",
+          padding: "35px",
+          background: "#ffffff",
+          borderRadius: "16px",
+          border:
+            "1px solid rgba(22,143,140,0.15)",
+          boxShadow:
+            "0 12px 35px rgba(11,38,56,0.12)",
         }}
       >
-        <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+        {/* Heading */}
+
+        <div
           style={{
-            ...inputStyle,
-            marginBottom: 0,
-            flex: 1,
+            textAlign: "center",
+            marginBottom: "30px",
           }}
+        >
+          <h1
+            style={{
+              margin: "0 0 10px",
+              color: "#0b2638",
+              fontSize: "34px",
+            }}
+          >
+            Welcome Back
+          </h1>
+
+          <p
+            style={{
+              margin: 0,
+              color: "#667985",
+              lineHeight: "1.6",
+            }}
+          >
+            Login to continue using DescAI.
+          </p>
+        </div>
+
+        {/* Email */}
+
+        <label
+          style={{
+            display: "block",
+            marginBottom: "8px",
+            color: "#173042",
+            fontWeight: "600",
+          }}
+        >
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+          style={inputStyle}
         />
 
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
+        {/* Password */}
+
+        <label
           style={{
-            marginLeft: "8px",
-            padding: "12px",
+            display: "block",
+            marginBottom: "8px",
+            color: "#173042",
+            fontWeight: "600",
+          }}
+        >
+          Password
+        </label>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            marginBottom: "8px",
+          }}
+        >
+          <input
+            type={
+              showPassword
+                ? "text"
+                : "password"
+            }
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+            style={{
+              ...inputStyle,
+              marginBottom: 0,
+            }}
+          />
+
+          <button
+            type="button"
+            onClick={() =>
+              setShowPassword(
+                !showPassword
+              )
+            }
+            style={{
+              padding: "0 14px",
+              color: "#168f8c",
+              background: "#eef8f7",
+              border:
+                "1px solid #cbdcda",
+              borderRadius: "8px",
+              fontWeight: "600",
+              cursor: "pointer",
+            }}
+          >
+            {showPassword
+              ? "Hide"
+              : "Show"}
+          </button>
+        </div>
+
+        {/* Forgot Password */}
+
+        <div
+          style={{
+            textAlign: "right",
+            marginBottom: "22px",
+          }}
+        >
+          <Link
+            to="/forgot-password"
+            style={{
+              color: "#168f8c",
+              textDecoration: "none",
+              fontSize: "14px",
+              fontWeight: "600",
+            }}
+          >
+            Forgot Password?
+          </Link>
+        </div>
+
+        {/* Login Button */}
+
+        <button
+          onClick={handleLogin}
+          disabled={loading}
+          style={{
+            width: "100%",
+            padding: "13px",
+            color: "white",
+            background:
+              loading
+                ? "#7abfbd"
+                : "#168f8c",
+            border: "none",
             borderRadius: "8px",
+            fontSize: "16px",
+            fontWeight: "700",
+            cursor:
+              loading
+                ? "not-allowed"
+                : "pointer",
+          }}
+        >
+          {loading
+            ? "Logging in..."
+            : "Login"}
+        </button>
+
+        {/* Divider */}
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            margin: "25px 0",
+            color: "#667985",
+            fontSize: "14px",
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              height: "1px",
+              background: "#dce7e6",
+            }}
+          />
+
+          OR
+
+          <div
+            style={{
+              flex: 1,
+              height: "1px",
+              background: "#dce7e6",
+            }}
+          />
+        </div>
+
+        {/* Google Login */}
+
+        <button
+          onClick={googleLogin}
+          style={{
+            width: "100%",
+            padding: "13px",
+            color: "#0b2638",
+            background: "#ffffff",
+            border:
+              "1px solid #cbdcda",
+            borderRadius: "8px",
+            fontSize: "16px",
+            fontWeight: "600",
             cursor: "pointer",
           }}
         >
-          {showPassword ? "Hide" : "Show"}
+          Continue with Google
         </button>
-      </div>
 
-      <div
-        style={{
-          textAlign: "right",
-          marginBottom: "20px",
-        }}
-      >
-        <Link
-          to="/forgot-password"
+        {/* Register */}
+
+        <p
           style={{
-            textDecoration: "none",
-            color: "#1976d2",
+            margin:
+              "25px 0 0",
+            textAlign: "center",
+            color: "#667985",
           }}
         >
-          Forgot Password?
-        </Link>
+          Don't have an account?{" "}
+
+          <Link
+            to="/register"
+            style={{
+              color: "#168f8c",
+              textDecoration: "none",
+              fontWeight: "700",
+            }}
+          >
+            Create Account
+          </Link>
+        </p>
       </div>
-
-      <button
-        onClick={handleLogin}
-        style={buttonStyle}
-      >
-        Login
-      </button>
-
-      <br />
-      <br />
-
-      <button
-        onClick={googleLogin}
-        style={{
-          ...buttonStyle,
-          background: "#db4437",
-        }}
-      >
-        Continue with Google
-      </button>
-
-      <p style={{ marginTop: "20px" }}>
-        Don't have an account?{" "}
-        <Link
-          to="/register"
-          style={{
-            color: "#1976d2",
-            textDecoration: "none",
-            fontWeight: "bold",
-          }}
-        >
-          Register
-        </Link>
-      </p>
     </div>
   );
 }
 
 const inputStyle = {
   width: "100%",
-  padding: "12px",
-  marginBottom: "15px",
+  padding: "13px",
+  color: "#173042",
+  background: "#ffffff",
+  border: "1px solid #cbdcda",
   borderRadius: "8px",
-  border: "1px solid #ccc",
+  outline: "none",
+  fontSize: "15px",
   boxSizing: "border-box" as const,
-};
-
-const buttonStyle = {
-  width: "100%",
-  padding: "12px",
-  background: "#1976d2",
-  color: "white",
-  border: "none",
-  borderRadius: "8px",
-  cursor: "pointer",
-  fontSize: "16px",
+  marginBottom: "18px",
 };
 
 export default Login;

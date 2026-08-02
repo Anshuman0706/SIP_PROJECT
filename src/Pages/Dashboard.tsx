@@ -8,6 +8,7 @@ function Dashboard() {
   const [userName, setUserName] = useState("User");
   const [userEmail, setUserEmail] = useState("");
   const [productCount, setProductCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,203 +28,412 @@ function Dashboard() {
         setUserEmail(parsedUser.email || "");
       } catch {
         setUserName("User");
+        setUserEmail("");
       }
     }
 
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/products"
+          "https://descai-backend.onrender.com/api/products",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         setProductCount(res.data.length);
       } catch (error) {
-        console.log(error);
+        console.log("Product fetch error:", error);
+        setProductCount(0);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProducts();
   }, [navigate]);
 
+  const dashboardStyle = {
+    minHeight: "100vh",
+    background: "#eef8f7",
+    padding: "45px 20px",
+  };
+
+  const containerStyle = {
+    maxWidth: "1180px",
+    margin: "0 auto",
+  };
+
+  const bannerStyle = {
+    padding: "42px",
+    color: "#ffffff",
+    background:
+      "linear-gradient(135deg, #0b2638, #173d52)",
+    borderRadius: "18px",
+    boxShadow:
+      "0 12px 30px rgba(11, 38, 56, 0.18)",
+  };
+
   const cardStyle = {
-    flex: "1 1 220px",
+    padding: "27px",
     background: "#ffffff",
+    border: "1px solid #dce7e6",
     borderRadius: "15px",
-    padding: "25px",
+    boxShadow:
+      "0 7px 20px rgba(11, 38, 56, 0.08)",
     textAlign: "center" as const,
-    boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+  };
+
+  const sectionStyle = {
+    marginTop: "30px",
+    padding: "30px",
+    background: "#ffffff",
+    border: "1px solid #dce7e6",
+    borderRadius: "15px",
+    boxShadow:
+      "0 7px 20px rgba(11, 38, 56, 0.08)",
+  };
+
+  const actionButtonStyle = {
+    flex: "1 1 200px",
+    padding: "14px 20px",
+    color: "#ffffff",
+    background: "#168f8c",
+    border: "none",
+    borderRadius: "9px",
+    fontSize: "16px",
+    fontWeight: "700",
+    cursor: "pointer",
   };
 
   return (
-    <div
-      style={{
-        background: "#f4f6fb",
-        minHeight: "100vh",
-        padding: "30px",
-      }}
-    >
-      {/* Welcome */}
+    <div style={dashboardStyle}>
+      <div style={containerStyle}>
 
-      <div
-        style={{
-          background:
-            "linear-gradient(135deg,#1976d2,#42a5f5)",
-          color: "white",
-          padding: "35px",
-          borderRadius: "15px",
-        }}
-      >
-        <h1>👋 Welcome, {userName}</h1>
+        {/* Welcome Section */}
 
-        <p
+        <section style={bannerStyle}>
+          <p
+            style={{
+              margin: "0 0 8px",
+              color: "#25b8b5",
+              fontSize: "15px",
+              fontWeight: "700",
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+            }}
+          >
+            DescAI Dashboard
+          </p>
+
+          <h1
+            style={{
+              margin: "0 0 12px",
+              fontSize: "clamp(32px, 5vw, 46px)",
+            }}
+          >
+            Welcome back, {userName}
+          </h1>
+
+          {userEmail && (
+            <p
+              style={{
+                margin: "0 0 12px",
+                color: "#dce7e6",
+                fontSize: "16px",
+              }}
+            >
+              {userEmail}
+            </p>
+          )}
+
+          <p
+            style={{
+              maxWidth: "720px",
+              margin: "0",
+              color: "rgba(255, 255, 255, 0.80)",
+              fontSize: "17px",
+              lineHeight: "1.7",
+            }}
+          >
+            Manage your products and create
+            professional AI-powered product
+            descriptions from one dashboard.
+          </p>
+        </section>
+
+        {/* Statistics */}
+
+        <section
           style={{
-            opacity: 0.9,
-            fontSize: "17px",
-            marginBottom: "10px",
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "20px",
+            marginTop: "30px",
           }}
         >
-          📧 {userEmail}
-        </p>
+          <div style={cardStyle}>
+            <p
+              style={{
+                margin: "0 0 10px",
+                color: "#667985",
+                fontSize: "15px",
+                fontWeight: "600",
+              }}
+            >
+              Total Products
+            </p>
 
-        <p style={{ fontSize: "18px" }}>
-          Manage your products and generate
-          AI-powered product descriptions.
-        </p>
-      </div>
+            <h2
+              style={{
+                margin: "0",
+                color: "#168f8c",
+                fontSize: "42px",
+              }}
+            >
+              {loading ? "..." : productCount}
+            </h2>
 
-      {/* Statistics */}
+            <p
+              style={{
+                margin: "10px 0 0",
+                color: "#667985",
+              }}
+            >
+              Products in your collection
+            </p>
+          </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "20px",
-          marginTop: "35px",
-        }}
-      >
-        <div style={cardStyle}>
-          <h2>📦 Products</h2>
+          <div style={cardStyle}>
+            <p
+              style={{
+                margin: "0 0 10px",
+                color: "#667985",
+                fontSize: "15px",
+                fontWeight: "600",
+              }}
+            >
+              AI Generator
+            </p>
 
-          <h1>{productCount}</h1>
+            <h2
+              style={{
+                margin: "0",
+                color: "#168f8c",
+                fontSize: "32px",
+              }}
+            >
+              Ready
+            </h2>
 
-          <p>Total Products</p>
-        </div>
+            <p
+              style={{
+                margin: "10px 0 0",
+                color: "#667985",
+              }}
+            >
+              Generate product descriptions
+            </p>
+          </div>
 
-        <div style={cardStyle}>
-          <h2>🤖 AI</h2>
+          <div style={cardStyle}>
+            <p
+              style={{
+                margin: "0 0 10px",
+                color: "#667985",
+                fontSize: "15px",
+                fontWeight: "600",
+              }}
+            >
+              Account Security
+            </p>
 
-          <h1>AI</h1>
+            <h2
+              style={{
+                margin: "0",
+                color: "#168f8c",
+                fontSize: "32px",
+              }}
+            >
+              Secure
+            </h2>
 
-          <p>Generate Smart Descriptions</p>
-        </div>
+            <p
+              style={{
+                margin: "10px 0 0",
+                color: "#667985",
+              }}
+            >
+              Protected with JWT
+            </p>
+          </div>
 
-        <div style={cardStyle}>
-          <h2>🔒 Security</h2>
+          <div style={cardStyle}>
+            <p
+              style={{
+                margin: "0 0 10px",
+                color: "#667985",
+                fontSize: "15px",
+                fontWeight: "600",
+              }}
+            >
+              Account Status
+            </p>
 
-          <h1>Secure</h1>
+            <h2
+              style={{
+                margin: "0",
+                color: "#168f8c",
+                fontSize: "32px",
+              }}
+            >
+              Active
+            </h2>
 
-          <p>JWT Protected Routes</p>
-        </div>
+            <p
+              style={{
+                margin: "10px 0 0",
+                color: "#667985",
+              }}
+            >
+              Your account is ready
+            </p>
+          </div>
+        </section>
 
-        <div style={cardStyle}>
-          <h2>🌐 Login</h2>
+        {/* Quick Actions */}
 
-          <h1>OAuth</h1>
-
-          <p>Google Sign In</p>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-
-      <div
-        style={{
-          background: "white",
-          marginTop: "40px",
-          padding: "30px",
-          borderRadius: "15px",
-          boxShadow: "0 8px 20px rgba(0,0,0,.08)",
-        }}
-      >
-        <h2>🚀 Quick Actions</h2>
-
-        <div
-          style={{
-            display: "flex",
-            gap: "15px",
-            flexWrap: "wrap",
-            marginTop: "20px",
-          }}
-        >
-          <button
-            style={buttonStyle}
-            onClick={() => navigate("/products")}
+        <section style={sectionStyle}>
+          <h2
+            style={{
+              margin: "0 0 8px",
+              color: "#0b2638",
+              fontSize: "27px",
+            }}
           >
-            📦 Manage Products
-          </button>
+            Quick Actions
+          </h2>
 
-          <button
-            style={buttonStyle}
-            onClick={() =>
-              navigate("/generate-description")
-            }
+          <p
+            style={{
+              margin: "0 0 22px",
+              color: "#667985",
+              lineHeight: "1.6",
+            }}
           >
-            🤖 Generate AI
-          </button>
+            Select an option to continue working
+            with DescAI.
+          </p>
 
-          <button
-            style={buttonStyle}
-            onClick={() => navigate("/profile")}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "14px",
+            }}
           >
-            👤 View Profile
-          </button>
-        </div>
-      </div>
+            <button
+              style={actionButtonStyle}
+              onClick={() =>
+                navigate("/products")
+              }
+            >
+              Manage Products
+            </button>
 
-      {/* Features */}
+            <button
+              style={actionButtonStyle}
+              onClick={() =>
+                navigate(
+                  "/generate-description"
+                )
+              }
+            >
+              Generate Description
+            </button>
 
-      <div
-        style={{
-          background: "white",
-          marginTop: "35px",
-          padding: "30px",
-          borderRadius: "15px",
-          boxShadow: "0 8px 20px rgba(0,0,0,.08)",
-        }}
-      >
-        <h2>✨ Project Features</h2>
+            <button
+              style={actionButtonStyle}
+              onClick={() =>
+                navigate("/profile")
+              }
+            >
+              View Profile
+            </button>
+          </div>
+        </section>
 
-        <ul
-          style={{
-            lineHeight: "35px",
-            fontSize: "17px",
-          }}
-        >
-          <li>✅ JWT Authentication</li>
-          <li>✅ Google OAuth Login</li>
-          <li>✅ Forgot Password</li>
-          <li>✅ Reset Password</li>
-          <li>✅ Product CRUD Operations</li>
-          <li>✅ Product Search</li>
-          <li>✅ AI Description Generator</li>
-          <li>✅ Protected Dashboard</li>
-          <li>✅ Responsive Design</li>
-          <li>✅ Dark Mode</li>
-        </ul>
+        {/* Features */}
+
+        <section style={sectionStyle}>
+          <h2
+            style={{
+              margin: "0 0 20px",
+              color: "#0b2638",
+              fontSize: "27px",
+            }}
+          >
+            Available Features
+          </h2>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(230px, 1fr))",
+              gap: "16px",
+            }}
+          >
+            <div style={featureStyle}>
+              AI Product Description Generator
+            </div>
+
+            <div style={featureStyle}>
+              Product Add, Edit and Delete
+            </div>
+
+            <div style={featureStyle}>
+              Product Search
+            </div>
+
+            <div style={featureStyle}>
+              JWT Authentication
+            </div>
+
+            <div style={featureStyle}>
+              Google OAuth Login
+            </div>
+
+            <div style={featureStyle}>
+              Forgot and Reset Password
+            </div>
+
+            <div style={featureStyle}>
+              Protected User Dashboard
+            </div>
+
+            <div style={featureStyle}>
+              Responsive User Interface
+            </div>
+          </div>
+        </section>
+
       </div>
     </div>
   );
 }
 
-const buttonStyle = {
-  padding: "14px 22px",
-  background: "#1976d2",
-  color: "white",
-  border: "none",
+const featureStyle = {
+  padding: "17px",
+  color: "#173042",
+  background: "#f7fcfb",
+  border: "1px solid #dce7e6",
   borderRadius: "10px",
-  cursor: "pointer",
-  fontSize: "16px",
-  fontWeight: "bold" as const,
+  fontSize: "15px",
+  fontWeight: "600",
 };
 
 export default Dashboard;

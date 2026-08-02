@@ -3,9 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function Products() {
-  // IMPORTANT:
-  // Replace this with your exact Render backend URL
-  const API_URL = "https://descai-backend.onrender.com";
+  const API_URL =
+    "https://descai-backend.onrender.com";
 
   const [products, setProducts] = useState<any[]>([]);
 
@@ -26,7 +25,6 @@ function Products() {
     },
   };
 
-  // Get all products
   const fetchProducts = async () => {
     try {
       setLoading(true);
@@ -37,8 +35,12 @@ function Products() {
       );
 
       setProducts(res.data);
-    } catch {
-      toast.error("Failed to fetch products");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        "Failed to fetch products"
+      );
     } finally {
       setLoading(false);
     }
@@ -48,29 +50,51 @@ function Products() {
     fetchProducts();
   }, []);
 
-  // Search product
   const searchProduct = async () => {
+    if (keyword.trim() === "") {
+      fetchProducts();
+      return;
+    }
+
     try {
-      if (keyword.trim() === "") {
-        fetchProducts();
-        return;
-      }
+      setLoading(true);
 
       const res = await axios.get(
-        `${API_URL}/api/products/search?keyword=${keyword}`,
+        `${API_URL}/api/products/search?keyword=${encodeURIComponent(
+          keyword
+        )}`,
         config
       );
 
       setProducts(res.data);
-    } catch {
-      toast.error("Search failed");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        "Product search failed"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Add product
+  const clearForm = () => {
+    setName("");
+    setCategory("");
+    setPrice("");
+    setEditId("");
+  };
+
   const addProduct = async () => {
-    if (!name || !category || !price) {
-      toast.warning("Fill all fields");
+    if (
+      !name.trim() ||
+      !category.trim() ||
+      !price
+    ) {
+      toast.warning(
+        "Please fill all product fields"
+      );
+
       return;
     }
 
@@ -85,20 +109,35 @@ function Products() {
         config
       );
 
-      toast.success("Product Added");
+      toast.success(
+        "Product added successfully"
+      );
 
-      setName("");
-      setCategory("");
-      setPrice("");
+      clearForm();
 
       fetchProducts();
-    } catch {
-      toast.error("Failed to add product");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        "Failed to add product"
+      );
     }
   };
 
-  // Update product
   const updateProduct = async () => {
+    if (
+      !name.trim() ||
+      !category.trim() ||
+      !price
+    ) {
+      toast.warning(
+        "Please fill all product fields"
+      );
+
+      return;
+    }
+
     try {
       await axios.put(
         `${API_URL}/api/products/${editId}`,
@@ -110,22 +149,52 @@ function Products() {
         config
       );
 
-      toast.success("Product Updated");
+      toast.success(
+        "Product updated successfully"
+      );
 
-      setEditId("");
-      setName("");
-      setCategory("");
-      setPrice("");
+      clearForm();
 
       fetchProducts();
-    } catch {
-      toast.error("Update failed");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        "Product update failed"
+      );
     }
   };
 
-  // Delete product
-  const deleteProduct = async (id: string) => {
-    if (!window.confirm("Delete this product?")) {
+  const startEdit = (
+    product: any
+  ) => {
+    setEditId(product._id);
+
+    setName(product.name || "");
+
+    setCategory(
+      product.category || ""
+    );
+
+    setPrice(
+      String(product.price || "")
+    );
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const deleteProduct = async (
+    id: string
+  ) => {
+    const confirmed =
+      window.confirm(
+        "Are you sure you want to delete this product?"
+      );
+
+    if (!confirmed) {
       return;
     }
 
@@ -135,183 +204,638 @@ function Products() {
         config
       );
 
-      toast.success("Product Deleted");
+      toast.success(
+        "Product deleted successfully"
+      );
 
       fetchProducts();
-    } catch {
-      toast.error("Delete failed");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        "Product delete failed"
+      );
     }
   };
 
   return (
     <div
       style={{
-        maxWidth: "1100px",
-        margin: "30px auto",
-        padding: "20px",
+        minHeight: "100vh",
+        background: "#eef8f7",
+        padding: "45px 20px",
       }}
     >
-      <h1
-        style={{
-          textAlign: "center",
-          color: "#1976d2",
-        }}
-      >
-        Product Management
-      </h1>
-
-      <p style={{ textAlign: "center" }}>
-        Total Products: {products.length}
-      </p>
-
-      {loading && (
-        <h3 style={{ textAlign: "center" }}>
-          Loading...
-        </h3>
-      )}
-
-      <input
-        placeholder="Search Product..."
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "12px",
-          marginBottom: "10px",
-        }}
-      />
-
-      <button
-        onClick={searchProduct}
-        style={{
-          width: "100%",
-          padding: "12px",
-          background: "#1976d2",
-          color: "white",
-          border: "none",
-        }}
-      >
-        Search
-      </button>
-
-      <hr />
-
-      <input
-        placeholder="Product Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "12px",
-          marginBottom: "10px",
-        }}
-      />
-
-      <input
-        placeholder="Category"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "12px",
-          marginBottom: "10px",
-        }}
-      />
-
-      <input
-        type="number"
-        placeholder="Price"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "12px",
-          marginBottom: "10px",
-        }}
-      />
-
-      <button
-        onClick={editId ? updateProduct : addProduct}
-        style={{
-          width: "100%",
-          padding: "14px",
-          background: editId ? "#ff9800" : "#4caf50",
-          color: "white",
-          border: "none",
-        }}
-      >
-        {editId ? "Update Product" : "Add Product"}
-      </button>
-
-      <hr />
-
-      {products.length === 0 && !loading && (
-        <h3 style={{ textAlign: "center" }}>
-          No products found
-        </h3>
-      )}
-
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "20px",
+          maxWidth: "1180px",
+          margin: "0 auto",
         }}
       >
-        {products.map((product: any) => (
-          <div
-            key={product._id}
+        {/* Page Heading */}
+
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: "35px",
+          }}
+        >
+          <p
             style={{
-              border: "1px solid #ddd",
-              padding: "20px",
-              borderRadius: "12px",
+              margin: "0 0 8px",
+              color: "#168f8c",
+              fontSize: "14px",
+              fontWeight: "700",
+              letterSpacing: "1px",
+              textTransform:
+                "uppercase",
             }}
           >
-            <h2>{product.name}</h2>
+            DescAI Product Center
+          </p>
 
-            <p>
-              <b>Category:</b> {product.category}
-            </p>
+          <h1
+            style={{
+              margin: "0 0 12px",
+              color: "#0b2638",
+              fontSize:
+                "clamp(32px, 5vw, 45px)",
+            }}
+          >
+            Product Management
+          </h1>
 
-            <p>
-              <b>Price:</b> ₹{product.price}
-            </p>
+          <p
+            style={{
+              maxWidth: "700px",
+              margin: "0 auto",
+              color: "#667985",
+              lineHeight: "1.7",
+              fontSize: "16px",
+            }}
+          >
+            Add, search, update, and
+            manage all your products
+            from one place.
+          </p>
+        </div>
 
-            <button
-              onClick={() => {
-                setEditId(product._id);
-                setName(product.name);
-                setCategory(product.category);
-                setPrice(product.price);
-              }}
-              style={{
-                background: "#2196f3",
-                color: "white",
-                padding: "10px",
-                border: "none",
-              }}
-            >
-              Edit
-            </button>
+        {/* Search Section */}
 
-            <button
-              onClick={() => deleteProduct(product._id)}
-              style={{
-                marginLeft: "10px",
-                background: "#f44336",
-                color: "white",
-                padding: "10px",
-                border: "none",
-              }}
-            >
-              Delete
-            </button>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            flexWrap: "wrap",
+            padding: "20px",
+            background: "#ffffff",
+            border:
+              "1px solid #dce7e6",
+            borderRadius: "15px",
+            boxShadow:
+              "0 7px 20px rgba(11, 38, 56, 0.08)",
+            marginBottom: "25px",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Search by product name..."
+            value={keyword}
+            onChange={(e) =>
+              setKeyword(
+                e.target.value
+              )
+            }
+            onKeyDown={(e) => {
+              if (
+                e.key === "Enter"
+              ) {
+                searchProduct();
+              }
+            }}
+            style={{
+              flex: "1 1 300px",
+              padding: "13px",
+              color: "#173042",
+              border:
+                "1px solid #cbdcda",
+              borderRadius: "8px",
+              outline: "none",
+              fontSize: "16px",
+            }}
+          />
+
+          <button
+            onClick={searchProduct}
+            style={{
+              padding:
+                "13px 25px",
+              color: "#ffffff",
+              background:
+                "#168f8c",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "16px",
+              fontWeight: "700",
+              cursor: "pointer",
+            }}
+          >
+            Search
+          </button>
+
+          <button
+            onClick={() => {
+              setKeyword("");
+
+              fetchProducts();
+            }}
+            style={{
+              padding:
+                "13px 25px",
+              color: "#0b2638",
+              background:
+                "#ffffff",
+              border:
+                "1px solid #168f8c",
+              borderRadius: "8px",
+              fontSize: "16px",
+              fontWeight: "700",
+              cursor: "pointer",
+            }}
+          >
+            Clear
+          </button>
+        </div>
+
+        {/* Product Form */}
+
+        <div
+          style={{
+            padding: "30px",
+            background: "#ffffff",
+            border:
+              "1px solid #dce7e6",
+            borderRadius: "15px",
+            boxShadow:
+              "0 7px 20px rgba(11, 38, 56, 0.08)",
+            marginBottom: "30px",
+          }}
+        >
+          <h2
+            style={{
+              margin:
+                "0 0 8px",
+              color:
+                "#0b2638",
+            }}
+          >
+            {editId
+              ? "Update Product"
+              : "Add New Product"}
+          </h2>
+
+          <p
+            style={{
+              margin:
+                "0 0 22px",
+              color:
+                "#667985",
+            }}
+          >
+            {editId
+              ? "Edit the selected product details."
+              : "Enter product information below."}
+          </p>
+
+          <div
+            style={{
+              display:
+                "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(220px, 1fr))",
+              gap:
+                "15px",
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Product Name"
+              value={name}
+              onChange={(e) =>
+                setName(
+                  e.target.value
+                )
+              }
+              style={inputStyle}
+            />
+
+            <input
+              type="text"
+              placeholder="Category"
+              value={category}
+              onChange={(e) =>
+                setCategory(
+                  e.target.value
+                )
+              }
+              style={inputStyle}
+            />
+
+            <input
+              type="number"
+              placeholder="Price"
+              value={price}
+              min="0"
+              onChange={(e) =>
+                setPrice(
+                  e.target.value
+                )
+              }
+              style={inputStyle}
+            />
           </div>
-        ))}
+
+          <div
+            style={{
+              display:
+                "flex",
+              flexWrap:
+                "wrap",
+              gap:
+                "12px",
+              marginTop:
+                "18px",
+            }}
+          >
+            <button
+              onClick={
+                editId
+                  ? updateProduct
+                  : addProduct
+              }
+              style={{
+                padding:
+                  "13px 25px",
+                color:
+                  "#ffffff",
+                background:
+                  "#168f8c",
+                border:
+                  "none",
+                borderRadius:
+                  "8px",
+                fontSize:
+                  "16px",
+                fontWeight:
+                  "700",
+                cursor:
+                  "pointer",
+              }}
+            >
+              {editId
+                ? "Update Product"
+                : "Add Product"}
+            </button>
+
+            {editId && (
+              <button
+                onClick={
+                  clearForm
+                }
+                style={{
+                  padding:
+                    "13px 25px",
+                  color:
+                    "#0b2638",
+                  background:
+                    "#ffffff",
+                  border:
+                    "1px solid #168f8c",
+                  borderRadius:
+                    "8px",
+                  fontSize:
+                    "16px",
+                  fontWeight:
+                    "700",
+                  cursor:
+                    "pointer",
+                }}
+              >
+                Cancel Edit
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Product List */}
+
+        <div
+          style={{
+            display:
+              "flex",
+            alignItems:
+              "center",
+            justifyContent:
+              "space-between",
+            flexWrap:
+              "wrap",
+            gap:
+              "12px",
+            marginBottom:
+              "20px",
+          }}
+        >
+          <div>
+            <h2
+              style={{
+                margin:
+                  "0 0 5px",
+                color:
+                  "#0b2638",
+              }}
+            >
+              Your Products
+            </h2>
+
+            <p
+              style={{
+                margin: "0",
+                color:
+                  "#667985",
+              }}
+            >
+              Total products:{" "}
+              {products.length}
+            </p>
+          </div>
+        </div>
+
+        {loading && (
+          <div
+            style={{
+              padding:
+                "40px",
+              background:
+                "#ffffff",
+              borderRadius:
+                "14px",
+              textAlign:
+                "center",
+              color:
+                "#168f8c",
+              fontWeight:
+                "700",
+            }}
+          >
+            Loading products...
+          </div>
+        )}
+
+        {!loading &&
+          products.length === 0 && (
+            <div
+              style={{
+                padding:
+                  "45px",
+                background:
+                  "#ffffff",
+                border:
+                  "1px solid #dce7e6",
+                borderRadius:
+                  "14px",
+                textAlign:
+                  "center",
+              }}
+            >
+              <h3
+                style={{
+                  margin:
+                    "0 0 10px",
+                  color:
+                    "#0b2638",
+                }}
+              >
+                No products found
+              </h3>
+
+              <p
+                style={{
+                  margin: "0",
+                  color:
+                    "#667985",
+                }}
+              >
+                Add your first product
+                using the form above.
+              </p>
+            </div>
+          )}
+
+        {!loading &&
+          products.length > 0 && (
+            <div
+              style={{
+                display:
+                  "grid",
+                gridTemplateColumns:
+                  "repeat(auto-fit, minmax(260px, 1fr))",
+                gap:
+                  "20px",
+              }}
+            >
+              {products.map(
+                (product: any) => (
+                  <div
+                    key={
+                      product._id
+                    }
+                    style={{
+                      padding:
+                        "25px",
+                      background:
+                        "#ffffff",
+                      border:
+                        "1px solid #dce7e6",
+                      borderRadius:
+                        "15px",
+                      boxShadow:
+                        "0 6px 18px rgba(11, 38, 56, 0.07)",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        margin:
+                          "0 0 15px",
+                        color:
+                          "#0b2638",
+                        fontSize:
+                          "22px",
+                      }}
+                    >
+                      {
+                        product.name
+                      }
+                    </h3>
+
+                    <div
+                      style={{
+                        padding:
+                          "12px",
+                        background:
+                          "#f7fcfb",
+                        borderRadius:
+                          "8px",
+                        marginBottom:
+                          "10px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color:
+                            "#667985",
+                        }}
+                      >
+                        Category
+                      </span>
+
+                      <p
+                        style={{
+                          margin:
+                            "5px 0 0",
+                          color:
+                            "#173042",
+                          fontWeight:
+                            "700",
+                        }}
+                      >
+                        {
+                          product.category
+                        }
+                      </p>
+                    </div>
+
+                    <div
+                      style={{
+                        padding:
+                          "12px",
+                        background:
+                          "#f7fcfb",
+                        borderRadius:
+                          "8px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color:
+                            "#667985",
+                        }}
+                      >
+                        Price
+                      </span>
+
+                      <p
+                        style={{
+                          margin:
+                            "5px 0 0",
+                          color:
+                            "#168f8c",
+                          fontSize:
+                            "20px",
+                          fontWeight:
+                            "800",
+                        }}
+                      >
+                        ₹
+                        {
+                          product.price
+                        }
+                      </p>
+                    </div>
+
+                    <div
+                      style={{
+                        display:
+                          "flex",
+                        gap:
+                          "10px",
+                        marginTop:
+                          "20px",
+                      }}
+                    >
+                      <button
+                        onClick={() =>
+                          startEdit(
+                            product
+                          )
+                        }
+                        style={{
+                          flex: 1,
+                          padding:
+                            "11px",
+                          color:
+                            "#ffffff",
+                          background:
+                            "#168f8c",
+                          border:
+                            "none",
+                          borderRadius:
+                            "8px",
+                          fontWeight:
+                            "700",
+                          cursor:
+                            "pointer",
+                        }}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          deleteProduct(
+                            product._id
+                          )
+                        }
+                        style={{
+                          flex: 1,
+                          padding:
+                            "11px",
+                          color:
+                            "#ffffff",
+                          background:
+                            "#d9534f",
+                          border:
+                            "none",
+                          borderRadius:
+                            "8px",
+                          fontWeight:
+                            "700",
+                          cursor:
+                            "pointer",
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          )}
       </div>
     </div>
   );
 }
+
+const inputStyle = {
+  width: "100%",
+  padding: "13px",
+  color: "#173042",
+  background: "#ffffff",
+  border: "1px solid #cbdcda",
+  borderRadius: "8px",
+  outline: "none",
+  fontSize: "16px",
+  boxSizing: "border-box" as const,
+};
 
 export default Products;

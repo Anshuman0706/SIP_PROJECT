@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
 
 import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -17,93 +16,77 @@ import Register from "./Pages/Register";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 
+import "./App.css";
+
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
-
   return (
-    <div
-      style={{
-        backgroundColor: darkMode ? "#121212" : "#ffffff",
-        color: darkMode ? "#ffffff" : "#000000",
-        minHeight: "100vh",
-      }}
-    >
-      <div
-        style={{
-          padding: "10px",
-          textAlign: "right",
-        }}
-      >
-        <button onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? "Light Mode" : "Dark Mode"}
-        </button>
-      </div>
-
+    <div className="app">
       <Navbar />
 
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
+      <main className="main-content">
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
 
-        <Route path="/about" element={<About />} />
+          <Route path="/about" element={<About />} />
 
-        <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
 
-        <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/forgot-password"
-          element={<ForgotPassword />}
-        />
+          <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
 
-        <Route
-          path="/reset-password/:token"
-          element={<ResetPassword />}
-        />
+          <Route
+            path="/reset-password/:token"
+            element={<ResetPassword />}
+          />
 
-        <Route
-          path="/google-success"
-          element={<GoogleSuccess />}
-        />
+          <Route
+            path="/google-success"
+            element={<GoogleSuccess />}
+          />
 
-        {/* Protected Routes */}
+          {/* Protected Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoute>
+                <Products />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/products"
-          element={
-            <ProtectedRoute>
-              <Products />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/generate-description"
-          element={
-            <ProtectedRoute>
-              <GenerateDescription />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+          <Route
+            path="/generate-description"
+            element={
+              <ProtectedRoute>
+                <GenerateDescription />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </main>
 
       <Footer />
     </div>

@@ -1,160 +1,176 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-function Navbar() {
+function NavBar() {
   const navigate = useNavigate();
-
-  const [mobile, setMobile] = useState(window.innerWidth <= 768);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const resize = () => {
-      setMobile(window.innerWidth <= 768);
-
-      if (window.innerWidth > 768) {
-        setMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", resize);
-
-    return () => window.removeEventListener("resize", resize);
-  }, []);
-
-  const logout = () => {
+  const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+
     navigate("/login");
   };
 
-  const linkStyle = {
-    color: "white",
-    textDecoration: "none",
-    padding: "10px",
-    fontWeight: "bold",
-    display: "block",
+  const getLinkStyle = (path: string) => {
+    const active = location.pathname === path;
+
+    return {
+      color: active ? "#25b8b5" : "#dce7e6",
+      textDecoration: "none",
+      fontSize: "15px",
+      fontWeight: active ? "700" : "600",
+      padding: "10px 3px",
+      borderBottom: active
+        ? "2px solid #25b8b5"
+        : "2px solid transparent",
+      whiteSpace: "nowrap" as const,
+    };
   };
 
   return (
     <nav
       style={{
-        background: "#1976d2",
-        color: "white",
-        padding: "15px 20px",
+        width: "100%",
+        background:
+          "linear-gradient(135deg, #0b2638, #173d52)",
+        boxShadow:
+          "0 4px 15px rgba(11, 38, 56, 0.22)",
       }}
     >
       <div
         style={{
+          maxWidth: "1200px",
+          minHeight: "72px",
+          margin: "0 auto",
+          padding: "0 25px",
           display: "flex",
-          justifyContent: "space-between",
           alignItems: "center",
+          justifyContent: "space-between",
+          gap: "25px",
         }}
       >
+        {/* Logo */}
         <Link
           to="/"
           style={{
-            color: "white",
+            color: "#ffffff",
             textDecoration: "none",
-            fontSize: "24px",
-            fontWeight: "bold",
+            fontSize: "29px",
+            fontWeight: "800",
+            whiteSpace: "nowrap",
           }}
         >
-          🤖 DescAI
+          Desc
+          <span style={{ color: "#25b8b5" }}>
+            AI
+          </span>
         </Link>
 
-        {mobile && (
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              background: "transparent",
-              color: "white",
-              border: "none",
-              fontSize: "30px",
-              cursor: "pointer",
-            }}
-          >
-            ☰
-          </button>
-        )}
-      </div>
-
-      <div
-        style={{
-          display:
-            mobile
-              ? menuOpen
-                ? "flex"
-                : "none"
-              : "flex",
-
-          flexDirection: mobile ? "column" : "row",
-
-          justifyContent: mobile ? "flex-start" : "center",
-
-          alignItems: "center",
-
-          gap: "15px",
-
-          marginTop: mobile ? "15px" : "10px",
-        }}
-      >
-        <Link to="/" style={linkStyle}>
-          🏠 Home
-        </Link>
-
-        <Link to="/dashboard" style={linkStyle}>
-          📊 Dashboard
-        </Link>
-
-        <Link to="/products" style={linkStyle}>
-          📦 Products
-        </Link>
-
-        <Link
-          to="/generate-description"
-          style={linkStyle}
+        {/* Navigation */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            flexWrap: "wrap",
+            gap: "18px",
+          }}
         >
-          🤖 Generate AI
-        </Link>
+          <Link to="/" style={getLinkStyle("/")}>
+            Home
+          </Link>
 
-        <Link to="/profile" style={linkStyle}>
-          👤 Profile
-        </Link>
+          {token && (
+            <>
+              <Link
+                to="/dashboard"
+                style={getLinkStyle("/dashboard")}
+              >
+                Dashboard
+              </Link>
 
-        <Link to="/about" style={linkStyle}>
-          ℹ️ About
-        </Link>
+              <Link
+                to="/products"
+                style={getLinkStyle("/products")}
+              >
+                Products
+              </Link>
 
-        {!token ? (
-          <>
-            <Link to="/register" style={linkStyle}>
+              <Link
+                to="/generate-description"
+                style={getLinkStyle(
+                  "/generate-description"
+                )}
+              >
+                Generate AI
+              </Link>
+
+              <Link
+                to="/profile"
+                style={getLinkStyle("/profile")}
+              >
+                Profile
+              </Link>
+            </>
+          )}
+
+          <Link
+            to="/about"
+            style={getLinkStyle("/about")}
+          >
+            About
+          </Link>
+
+          {!token && (
+            <Link
+              to="/register"
+              style={getLinkStyle("/register")}
+            >
               Register
             </Link>
+          )}
 
-            <Link to="/login" style={linkStyle}>
+          {token ? (
+            <button
+              type="button"
+              onClick={handleLogout}
+              style={{
+                padding: "10px 19px",
+                color: "#ffffff",
+                background: "#168f8c",
+                border: "1px solid #25b8b5",
+                borderRadius: "8px",
+                fontSize: "15px",
+                fontWeight: "700",
+                cursor: "pointer",
+              }}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              style={{
+                padding: "10px 19px",
+                color: "#ffffff",
+                background: "#168f8c",
+                border: "1px solid #25b8b5",
+                borderRadius: "8px",
+                fontSize: "15px",
+                fontWeight: "700",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
               Login
             </Link>
-          </>
-        ) : (
-          <button
-            onClick={logout}
-            style={{
-              background: "#f44336",
-              color: "white",
-              border: "none",
-              padding: "10px 18px",
-              borderRadius: "6px",
-              cursor: "pointer",
-            }}
-          >
-            Logout
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </nav>
   );
 }
 
-export default Navbar;
+export default NavBar;
