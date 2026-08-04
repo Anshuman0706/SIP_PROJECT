@@ -1,19 +1,19 @@
 # DescAI – AI Product Description Generator
 
-DescAI is a full-stack web application that helps users create product descriptions for e-commerce platforms using AI.
+DescAI is a full-stack AI-powered web application that helps users create clear, engaging, and professional product descriptions for e-commerce platforms.
 
-Users can enter product details such as the product name, category, key ingredients, weight, features, and preferred writing tone. The application generates an AI-based product description that users can review, edit, regenerate, and copy.
+Users can enter product information such as the product name, category, key ingredients, weight, and preferred writing tone. The application generates an AI-based product description that users can review, edit, regenerate, and copy.
 
 ---
 
 ## Live Demo
 
-### Frontend
+### Frontend Application
 
 🔗 **Live Application:**  
 https://descai-frontend.onrender.com
 
-### Backend
+### Backend API
 
 🔗 **Backend API:**  
 https://descai-backend.onrender.com
@@ -27,7 +27,7 @@ https://github.com/Anshuman0706/SIP_PROJECT.git
 
 ## Project Features
 
-### Authentication
+### User Authentication
 
 - User registration
 - User login
@@ -41,34 +41,33 @@ https://github.com/Anshuman0706/SIP_PROJECT.git
 ### AI Product Description Generator
 
 - Enter product name
-- Select product category
-- Add key ingredients
+- Enter product category
+- Add key ingredients or important features
 - Enter product weight
-- Add product features
-- Select a writing tone:
-  - Premium
-  - Traditional
-  - Health-focused
+- Select a preferred writing tone
 - Generate an AI-based product description
+- Edit the generated description
 - Regenerate the description
-- Edit the generated output
 - Copy the final description
+- Clear the generated output
 
 ### Product Management
 
 - Add new products
-- View all products
+- View saved products
 - Search products
 - Edit product details
 - Delete products
-- Store product data in MongoDB Atlas
+- Store product information in MongoDB Atlas
 
-### Deployment
+### User Interface
 
-- Frontend deployed online
-- Backend deployed on Render
-- MongoDB Atlas used as the cloud database
-- Frontend connected to the deployed backend using environment variables
+- Modern and responsive user interface
+- Dark blue and teal color theme
+- Responsive layout for desktop and mobile devices
+- User-friendly validation messages
+- Loading indicator during AI generation
+- Clean error handling for AI API quota limits
 
 ---
 
@@ -100,6 +99,12 @@ https://github.com/Anshuman0706/SIP_PROJECT.git
 ### AI Integration
 
 - Google Gemini API
+
+### Deployment
+
+- Frontend deployed on Render
+- Backend deployed on Render
+- Database hosted on MongoDB Atlas
 
 ---
 
