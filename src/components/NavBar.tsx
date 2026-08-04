@@ -17,15 +17,16 @@ function NavBar() {
     const active = location.pathname === path;
 
     return {
-      color: active ? "#25b8b5" : "#dce7e6",
+      color: active ? "#35d6d1" : "#e4eeee",
       textDecoration: "none",
       fontSize: "15px",
-      fontWeight: active ? "700" : "600",
-      padding: "10px 3px",
+      fontWeight: active ? "800" : "600",
+      padding: "12px 4px",
       borderBottom: active
-        ? "2px solid #25b8b5"
-        : "2px solid transparent",
+        ? "3px solid #35d6d1"
+        : "3px solid transparent",
       whiteSpace: "nowrap" as const,
+      transition: "all 0.25s ease",
     };
   };
 
@@ -34,36 +35,57 @@ function NavBar() {
       style={{
         width: "100%",
         background:
-          "linear-gradient(135deg, #0b2638, #173d52)",
-        boxShadow:
-          "0 4px 15px rgba(11, 38, 56, 0.22)",
+          "linear-gradient(135deg, #071d2d 0%, #10354b 55%, #16465a 100%)",
+        boxShadow: "0 5px 20px rgba(0, 0, 0, 0.28)",
+        position: "sticky",
+        top: 0,
+        zIndex: 1000,
       }}
     >
       <div
         style={{
-          maxWidth: "1200px",
-          minHeight: "72px",
+          width: "100%",
+          maxWidth: "1320px",
+          minHeight: "82px",
           margin: "0 auto",
-          padding: "0 25px",
+          padding: "0 38px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "25px",
+          gap: "35px",
         }}
       >
-        {/* Logo */}
+        {/* Big DescAI Brand */}
         <Link
           to="/"
           style={{
-            color: "#ffffff",
             textDecoration: "none",
-            fontSize: "29px",
-            fontWeight: "800",
-            whiteSpace: "nowrap",
+            display: "flex",
+            alignItems: "center",
+            flexShrink: 0,
           }}
         >
-          Desc
-          <span style={{ color: "#25b8b5" }}>
+          <span
+            style={{
+              fontSize: "36px",
+              fontWeight: "900",
+              letterSpacing: "-1.8px",
+              color: "#ffffff",
+              textShadow: "0 2px 10px rgba(0, 0, 0, 0.25)",
+            }}
+          >
+            Desc
+          </span>
+
+          <span
+            style={{
+              fontSize: "36px",
+              fontWeight: "900",
+              letterSpacing: "-1.8px",
+              color: "#32d5cf",
+              textShadow: "0 0 15px rgba(50, 213, 207, 0.35)",
+            }}
+          >
             AI
           </span>
         </Link>
@@ -75,7 +97,7 @@ function NavBar() {
             alignItems: "center",
             justifyContent: "flex-end",
             flexWrap: "wrap",
-            gap: "18px",
+            gap: "22px",
           }}
         >
           <Link to="/" style={getLinkStyle("/")}>
@@ -100,9 +122,7 @@ function NavBar() {
 
               <Link
                 to="/generate-description"
-                style={getLinkStyle(
-                  "/generate-description"
-                )}
+                style={getLinkStyle("/generate-description")}
               >
                 Generate AI
               </Link>
@@ -116,10 +136,7 @@ function NavBar() {
             </>
           )}
 
-          <Link
-            to="/about"
-            style={getLinkStyle("/about")}
-          >
+          <Link to="/about" style={getLinkStyle("/about")}>
             About
           </Link>
 
@@ -137,14 +154,18 @@ function NavBar() {
               type="button"
               onClick={handleLogout}
               style={{
-                padding: "10px 19px",
+                padding: "12px 23px",
                 color: "#ffffff",
-                background: "#168f8c",
-                border: "1px solid #25b8b5",
-                borderRadius: "8px",
+                background:
+                  "linear-gradient(135deg, #159f9b, #28c7c1)",
+                border: "1px solid rgba(255,255,255,0.18)",
+                borderRadius: "10px",
                 fontSize: "15px",
-                fontWeight: "700",
+                fontWeight: "800",
                 cursor: "pointer",
+                whiteSpace: "nowrap",
+                boxShadow:
+                  "0 5px 15px rgba(20, 190, 182, 0.22)",
               }}
             >
               Logout
@@ -153,15 +174,18 @@ function NavBar() {
             <Link
               to="/login"
               style={{
-                padding: "10px 19px",
+                padding: "12px 23px",
                 color: "#ffffff",
-                background: "#168f8c",
-                border: "1px solid #25b8b5",
-                borderRadius: "8px",
+                background:
+                  "linear-gradient(135deg, #159f9b, #28c7c1)",
+                border: "1px solid rgba(255,255,255,0.18)",
+                borderRadius: "10px",
                 fontSize: "15px",
-                fontWeight: "700",
+                fontWeight: "800",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
+                boxShadow:
+                  "0 5px 15px rgba(20, 190, 182, 0.22)",
               }}
             >
               Login
