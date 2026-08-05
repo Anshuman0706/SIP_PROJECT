@@ -239,9 +239,9 @@ function GenerateDescription() {
           >
             <option>Professional</option>
             <option>Marketing</option>
-            <option>SEO</option>
-            <option>Friendly</option>
+            <option>Casually</option>
             <option>Premium</option>
+            <option>Traditional</option>
           </select>
 
           {/* Generate Button */}
