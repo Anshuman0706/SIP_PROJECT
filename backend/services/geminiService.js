@@ -11,52 +11,65 @@ async function generateDescription(
   weight,
   tone
 ) {
-const prompt = `
-You are an expert Amazon and Flipkart product copywriter.
+  const prompt = `
+You are an expert e-commerce product copywriter.
 
-Generate a premium e-commerce product description.
+Create a UNIQUE and product-specific product description for Amazon and Flipkart.
+
+Product details:
 
 Product Name: ${name}
-Category: ${category}
-Ingredients: ${ingredients}
-Weight: ${weight}
-Tone: ${tone}
+Product Category: ${category}
+Key Ingredients or Features: ${ingredients || "Not provided"}
+Product Weight or Size: ${weight || "Not provided"}
+Writing Tone: ${tone}
 
-IMPORTANT INSTRUCTIONS:
-- Return ONLY the final product description.
-- Do NOT write "Here is a professional..." or any introductory sentence.
-- Do NOT use Markdown.
-- Do NOT use ###, ##, **, ---, *, or backticks.
-- Do NOT number the sections.
-- Use plain text only.
+IMPORTANT:
 
-Format exactly like this:
+- Carefully understand the product name, category, ingredients, and features.
+- Write content specifically for this product.
+- Do not use the same generic sentences for different products.
+- Do not make unsupported claims about health, quality, certifications, ingredients, or performance.
+- Use only the information provided by the user.
+- If ingredients or features are not provided, write naturally without inventing them.
+- Make the wording different depending on the selected tone.
+- Do not repeat the same sentence or phrase unnecessarily.
+- Make the description useful, clear, attractive, and suitable for an e-commerce product page.
+
+Return ONLY the final product description.
+
+Do NOT include:
+- Any introduction before the description
+- Markdown symbols
+- Hashtags
+- Asterisks
+- Backticks
+- Numbered headings
+
+Use this exact structure:
 
 Product Title:
-<Title>
+Create a short, attractive title using the product name, category, and weight when available.
 
 Short Description:
-<2-3 attractive paragraphs>
+Write 2 product-specific paragraphs. Explain what the product is and highlight only the details provided.
 
 Key Features:
-• Feature 1
-• Feature 2
-• Feature 3
-• Feature 4
-• Feature 5
+• Write 4 to 5 product-specific features based only on the provided information.
+• Do not use generic features that could apply to every product.
 
-Benefits:
-• Benefit 1
-• Benefit 2
-• Benefit 3
+Product Details:
+Category: ${category}
+Weight: ${weight || "Not provided"}
+Tone: ${tone}
 
 Why Choose This Product?
-<Persuasive paragraph>
+Write one persuasive paragraph explaining why this specific product may be useful or appealing. Do not make unsupported claims.
 
 SEO Keywords:
-keyword1, keyword2, keyword3, keyword4, keyword5
+Generate 5 relevant keywords based on the actual product name and category.
 
-The output should be ready to display directly on an e-commerce website.
+The output must be different for different products and ready to display directly on an e-commerce website.
 `;
 
   const response = await ai.models.generateContent({
@@ -67,4 +80,6 @@ The output should be ready to display directly on an e-commerce website.
   return response.text;
 }
 
-module.exports = { generateDescription };
+module.exports = {
+  generateDescription,
+};
