@@ -116,5 +116,140 @@ React + TypeScript Frontend
 Node.js + Express Backend
             ↓
 MongoDB Atlas Database
-            ↓
+            ↓# DescAI – AI Product Description Generator
+
+DescAI is a full-stack AI-powered web application that helps users create clear, engaging, and professional product descriptions for e-commerce platforms.
+
+Users can enter product information such as product name, category, key ingredients, product weight, and preferred writing tone. The application generates an AI-based product description that users can review, edit, regenerate, and copy.
+
+---
+
+## Live Demo
+
+### Frontend Application
+
+**Live Application:**  
+https://descai-frontend.onrender.com
+
+### Backend API
+
+**Backend API:**  
+https://descai-backend.onrender.com
+
+### GitHub Repository
+
+**Source Code:**  
+https://github.com/Anshuman0706/SIP_PROJECT.git
+
+---
+
+## Project Features
+
+### User Authentication
+
+- User registration
+- User login
+- JWT-based authentication
+- Protected user profile
+- Google OAuth login
+- Forgot password functionality
+- Password reset using a secure reset token
+- Password encryption using bcrypt
+
+### AI Product Description Generator
+
+- Enter product name
+- Enter product category
+- Add key ingredients or important product information
+- Enter product weight
+- Select a preferred writing tone
+- Generate an AI-based product description
+- Edit the generated description
+- Regenerate the description
+- Copy the final description
+- Clear the generated output
+- Fallback description generation when the Gemini API is unavailable
+
+### Product Management
+
+- Add new products
+- View saved products
+- Search products
+- Edit product details
+- Delete products
+- Store product information using MongoDB Atlas
+
+### User Interface
+
+- Responsive user interface
+- Dark blue and teal color theme
+- Desktop and mobile-friendly layout
+- User-friendly validation messages
+- Loading indicator during AI generation
+- Toast notifications
+- Error handling for AI generation and API issues
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- React Router
+- Axios
+- Bootstrap
+- React Icons
+- React Toastify
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JSON Web Token (JWT)
+- bcryptjs
+- Passport.js
+- Google OAuth
+- Express Validator
+- Express Rate Limit
+- Nodemailer
+- Crypto
+- CORS
+- Express Session
+
+### AI Integration
+
+- Google Gemini API
+- `@google/genai`
+
+### Database
+
+- MongoDB Atlas
+
+### Deployment
+
+- Render
+
+---
+
+## Project Architecture
+
+```text
+                         DescAI
+                           |
+             +-------------+-------------+
+             |                           |
+        Frontend                      Backend
+             |                           |
+     React + TypeScript          Node.js + Express
+             |                           |
+             +-------------+-------------+
+                           |
+                     MongoDB Atlas
+                           |
+                    Google Gemini API
 Google Gemini AI
